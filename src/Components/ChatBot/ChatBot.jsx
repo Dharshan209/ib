@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Chatbot.css';
+import './ChatBot.css';
 
 const responses = {
   'hi': 'Hello! How can I help you today?',
