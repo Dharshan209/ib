@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import './5C.css';
+import './5c.css';
 
 const FiveC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
