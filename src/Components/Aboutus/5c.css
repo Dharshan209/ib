@@ -1,0 +1,169 @@
+.fivec-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 12px;
+    margin: 40px 0;
+  }
+  
+  .fivec-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .fivec-title {
+    font-size: 24px;
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 10px;
+  }
+  
+  .fancy-5c {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .five-symbol, .c-symbol {
+    font-size: 64px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #4158d0, #c850c0, #ffcc70);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+  }
+  
+  .fivec-content {
+    width: 100%;
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .fivec-card-container {
+    width: 100%;
+    height: 240px;
+    position: relative;
+    margin-bottom: 30px;
+  }
+  
+  .fivec-card {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  
+  .card-icon {
+    font-size: 42px;
+    margin-bottom: 16px;
+  }
+  
+  .card-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #4158d0, #c850c0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .card-description {
+    font-size: 16px;
+    color: #495057;
+    line-height: 1.6;
+  }
+  
+  .fivec-navigation {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  
+  .nav-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #dee2e6;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .nav-dot.active {
+    background: linear-gradient(135deg, #4158d0, #c850c0);
+    transform: scale(1.2);
+  }
+  
+  .fivec-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 40px;
+    width: 100%;
+    max-width: 800px;
+  }
+  
+  .fivec-list-item {
+    background: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  }
+  
+  .list-icon {
+    font-size: 18px;
+  }
+  
+  .list-name {
+    font-weight: 600;
+    color: #495057;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .fivec-card {
+      padding: 20px;
+    }
+    
+    .five-symbol, .c-symbol {
+      font-size: 50px;
+    }
+    
+    .card-icon {
+      font-size: 36px;
+    }
+    
+    .card-title {
+      font-size: 20px;
+    }
+    
+    .fivec-card-container {
+      height: 260px;
+    }
+    
+    .fivec-list {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
