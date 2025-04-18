@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Header from "./Components/Header/Header";
 import Footer from "./Components/Footer/Footer";
 import Contact from "./Components/Contact/Contact";
@@ -11,27 +11,29 @@ import Chatbot from "./Components/ChatBot/ChatBot";
 
 function App() {
   return (
-    <div>
+    <div className="app-container">
       <Header />
-      <section id="home">
-        <Home />
-        <Chatbot/>
-      </section>
-      <section id="about">
-        <AboutUs />
-      </section>
-      <section id="product">
-        <Products />
-      </section>
-      <section id="team">
-        <Team />
-      </section>
-      <section id="gallery">
-        <Gallery />
-      </section>
-      <section id="contact">
-        <Contact />
-      </section>
+      <main>
+        <section id="home">
+          <Home />
+          <Chatbot />
+        </section>
+        <section id="about">
+          <AboutUs />
+        </section>
+        <section id="product">
+          <Products />
+        </section>
+        <section id="team">
+          <Team />
+        </section>
+        <section id="gallery">
+          <Gallery />
+        </section>
+        <section id="contact">
+          <Contact />
+        </section>
+      </main>
       <Footer />
     </div>
   );

@@ -1,240 +1,210 @@
 .about-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px 20px;
-    font-family: 'Inter', 'Segoe UI', sans-serif;
-    color: #212529;
-    background-color: #ffffff;
-  }
-  
-  .page-header {
-    text-align: center;
-    margin-bottom: 60px;
-  }
-  
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+  color: var(--text-dark);
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+.page-header h1 {
+  font-size: var(--font-size-4xl);
+  font-weight: 800;
+  margin-bottom: var(--space-4);
+  color: var(--primary);
+}
+
+.header-decoration {
+  width: 80px;
+  height: 4px;
+  background: var(--gradient-primary);
+  margin: 0 auto;
+  border-radius: var(--radius-sm);
+}
+
+.about-section {
+  margin-bottom: var(--space-10);
+}
+
+/* Overview Section */
+.overview {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+}
+
+.section-content {
+  flex: 1;
+}
+
+.section-content h2 {
+  font-size: var(--font-size-2xl);
+  margin-bottom: var(--space-5);
+  position: relative;
+  display: inline-block;
+  color: var(--primary);
+}
+
+.section-content h2:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  width: 60px;
+  height: 3px;
+  background: var(--gradient-primary);
+}
+
+.section-content p {
+  font-size: var(--font-size-base);
+  line-height: 1.8;
+  color: var(--text-medium);
+  margin-bottom: var(--space-4);
+}
+
+.founded-badge {
+  width: 120px;
+  height: 120px;
+  background: var(--gradient-primary);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  box-shadow: var(--shadow-md);
+  flex-shrink: 0;
+}
+
+.founded-badge .year {
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+}
+
+.founded-badge .text {
+  font-size: var(--font-size-base);
+  font-weight: 500;
+}
+
+/* Mission Vision Section */
+.mission-vision-container {
+  display: flex;
+  gap: var(--space-5);
+}
+
+.mission-box, .vision-box {
+  flex: 1;
+  background-color: var(--bg-light);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6) var(--space-5);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-normal);
+  border: 1px solid rgba(10, 61, 98, 0.1);
+}
+
+.mission-box:hover, .vision-box:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.icon-container {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-4);
+}
+
+.mission-box .icon-container {
+  background: linear-gradient(135deg, #0a3d62, #3498db);
+}
+
+.vision-box .icon-container {
+  background: linear-gradient(135deg, #3498db, #0a3d62);
+}
+
+.icon {
+  font-size: var(--font-size-2xl);
+  color: white;
+}
+
+.mission-box h3, .vision-box h3 {
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--space-4);
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.mission-box p, .vision-box p {
+  font-size: var(--font-size-base);
+  line-height: 1.7;
+  color: var(--text-medium);
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
   .page-header h1 {
-    font-size: 42px;
-    font-weight: 800;
-    margin-bottom: 16px;
-    color: #212529;
-  }
-  
-  .header-decoration {
-    width: 80px;
-    height: 4px;
-    background: linear-gradient(90deg, #4158d0, #c850c0);
-    margin: 0 auto;
-    border-radius: 2px;
-  }
-  
-  .about-section {
-    margin-bottom: 80px;
-  }
-  
-  /* Overview Section */
-  .overview {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 40px;
-  }
-  
-  .section-content {
-    flex: 1;
+    font-size: var(--font-size-3xl);
   }
   
   .section-content h2 {
-    font-size: 28px;
-    margin-bottom: 24px;
-    position: relative;
-    display: inline-block;
+    font-size: var(--font-size-xl);
   }
-  
-  .section-content h2:after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -8px;
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, #4158d0, #c850c0);
-  }
-  
-  .section-content p {
-    font-size: 16px;
-    line-height: 1.8;
-    color: #495057;
-    margin-bottom: 16px;
-  }
-  
-  .founded-badge {
-    width: 120px;
-    height: 120px;
-    background: linear-gradient(135deg, #4158d0, #c850c0);
-    border-radius: 50%;
-    display: flex;
+}
+
+@media (max-width: 768px) {
+  .overview {
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    flex-shrink: 0;
-  }
-  
-  .founded-badge .year {
-    font-size: 32px;
-    font-weight: 700;
-  }
-  
-  .founded-badge .text {
-    font-size: 16px;
-    font-weight: 500;
-  }
-  
-  /* Mission Vision Section */
-  .mission-vision-container {
-    display: flex;
-    gap: 30px;
-  }
-  
-  .mission-box, .vision-box {
-    flex: 1;
-    background-color: #f8f9fa;
-    border-radius: 16px;
-    padding: 40px 30px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-  }
-  
-  .icon-container {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
-  
-  .mission-box .icon-container {
-    background: linear-gradient(135deg, #4158d0, #6d80e4);
-  }
-  
-  .vision-box .icon-container {
-    background: linear-gradient(135deg, #c850c0, #e588d7);
-  }
-  
-  .icon {
-    font-size: 28px;
-  }
-  
-  .mission-box h3, .vision-box h3 {
-    font-size: 22px;
-    margin-bottom: 16px;
-    font-weight: 600;
-  }
-  
-  .mission-box p, .vision-box p {
-    font-size: 16px;
-    line-height: 1.7;
-    color: #495057;
-  }
-  
-  /* Testimonials Section */
-  .testimonial-container {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
     text-align: center;
   }
   
-  .testimonial-card {
-    background-color: #f8f9fa;
-    border-radius: 16px;
-    padding: 40px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    position: relative;
-    margin-bottom: 20px;
+  .section-content h2:after {
+    left: 50%;
+    transform: translateX(-50%);
   }
   
-  .quote-mark {
-    font-size: 64px;
-    position: absolute;
-    top: -20px;
-    left: 30px;
-    color: rgba(200, 80, 192, 0.2);
-    font-family: Georgia, serif;
-  }
-  
-  .quote {
-    font-size: 20px;
-    line-height: 1.6;
-    font-style: italic;
-    color: #343a40;
-    margin-bottom: 20px;
-  }
-  
-  .author-info {
-    display: flex;
+  .mission-vision-container {
     flex-direction: column;
   }
   
-  .author-info strong {
-    font-size: 18px;
-    color: #212529;
+  .icon-container {
+    margin-left: auto;
+    margin-right: auto;
   }
   
-  .author-info span {
-    font-size: 14px;
-    color: #6c757d;
+  .about-section {
+    margin-bottom: var(--space-8);
   }
   
-  .testimonial-dots {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 20px;
+  .founded-badge {
+    margin-top: var(--space-5);
+  }
+}
+
+@media (max-width: 480px) {
+  .page-header {
+    margin-bottom: var(--space-6);
   }
   
-  .dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: #dee2e6;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  .page-header h1 {
+    font-size: var(--font-size-2xl);
   }
   
-  .dot.active {
-    background: linear-gradient(135deg, #4158d0, #c850c0);
-    transform: scale(1.2);
+  .section-content h2 {
+    font-size: var(--font-size-lg);
   }
   
-  /* Responsive Styles */
-  @media (max-width: 768px) {
-    .overview {
-      flex-direction: column;
-      text-align: center;
-    }
-    
-    .section-content h2:after {
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    
-    .mission-vision-container {
-      flex-direction: column;
-    }
-    
-    .icon-container {
-      margin-left: auto;
-      margin-right: auto;
-    }
-    
-    .testimonial-card {
-      padding: 30px 20px;
-    }
-    
-    .quote {
-      font-size: 18px;
-    }
+  .mission-box, .vision-box {
+    padding: var(--space-5) var(--space-4);
   }
+  
+  .about-container {
+    padding: var(--space-5) var(--space-3);
+  }
+}

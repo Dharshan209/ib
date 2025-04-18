@@ -23,31 +23,59 @@ const productData = [
 
 const Products = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [loadedImages, setLoadedImages] = useState({});
 
   useEffect(() => {
-    // Simulate loading for better UX
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 800);
+    // Preload images
+    let mounted = true;
+    const newLoadedImages = {};
     
-    return () => clearTimeout(timer);
+    const imagePromises = productData.map((product) => {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.src = product.image;
+        img.onload = () => {
+          if (mounted) {
+            newLoadedImages[product.image] = true;
+          }
+          resolve();
+        };
+        img.onerror = () => {
+          if (mounted) {
+            newLoadedImages[product.image] = false;
+          }
+          resolve();
+        };
+      });
+    });
+
+    // Set loading state based on image loading
+    Promise.all(imagePromises).then(() => {
+      if (mounted) {
+        setLoadedImages(newLoadedImages);
+        setTimeout(() => setIsLoading(false), 300); // Small delay for smoother transition
+      }
+    });
+
+    return () => {
+      // Cleanup
+      mounted = false;
+    };
   }, []);
 
   return (
-    <div className="products-page">
-      <div className="products-header">
-        <h2 className="products-title">Health & Wellness Products</h2>
-        <p className="products-subtitle">
-          Discover our premium range of supplements designed to support your health journey.
-        </p>
-      </div>
+    <div className="products-container fade-in">
+      <h2 className="section-title">Health & Wellness Products</h2>
+      <p className="section-subtitle">
+        Discover our premium range of supplements designed to support your health journey.
+      </p>
 
       <div className="products-grid">
         {isLoading ? (
           // Loading skeletons
           Array.from({ length: 8 }).map((_, index) => (
             <div className="product-card" key={`skeleton-${index}`}>
-              <div className="image-container skeleton"></div>
+              <div className="product-image-container skeleton"></div>
               <div className="product-info">
                 <div className="skeleton" style={{ height: '24px', width: '70%', marginBottom: '8px' }}></div>
               </div>
@@ -56,11 +84,11 @@ const Products = () => {
         ) : (
           productData.map((product, index) => (
             <div className="product-card" key={index}>
-              <div className="image-container">
+              <div className="product-image-container">
                 <img 
                   src={product.image} 
                   alt={product.name} 
-                  className="product-image" 
+                  className={`product-image ${loadedImages[product.image] ? 'loaded' : ''}`}
                   loading="lazy"
                 />
               </div>
