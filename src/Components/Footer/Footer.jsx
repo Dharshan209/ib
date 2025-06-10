@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="footer-container">
         {/* Left - Logo and Brand */}
         <div className="footer-left">
-          <img src="/logo.svg" alt="Logo" className="footer-logo" />
+          <img src="/IB-logo.svg" alt="Logo" className="footer-logo" />
           <div className="footer-brand">
             <span className="footer-name">IB Indian Biologicals</span>
             <span className="footer-tagline">Health & Wellness</span>

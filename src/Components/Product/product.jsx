@@ -24,12 +24,14 @@ const productData = [
 const Products = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadedImages, setLoadedImages] = useState({});
+  const [imageError, setImageError] = useState({}); // New state for image errors
 
   useEffect(() => {
     // Preload images
     let mounted = true;
     const newLoadedImages = {};
     
+    const newImageError = {}; // Temporary store for errors in this effect run
     const imagePromises = productData.map((product) => {
       return new Promise((resolve) => {
         const img = new Image();
@@ -37,12 +39,14 @@ const Products = () => {
         img.onload = () => {
           if (mounted) {
             newLoadedImages[product.image] = true;
+            newImageError[product.image] = false;
           }
           resolve();
         };
         img.onerror = () => {
           if (mounted) {
             newLoadedImages[product.image] = false;
+            newImageError[product.image] = true;
           }
           resolve();
         };
@@ -53,6 +57,7 @@ const Products = () => {
     Promise.all(imagePromises).then(() => {
       if (mounted) {
         setLoadedImages(newLoadedImages);
+        setImageError(newImageError); // Set image error state
         setTimeout(() => setIsLoading(false), 300); // Small delay for smoother transition
       }
     });
@@ -84,12 +89,13 @@ const Products = () => {
         ) : (
           productData.map((product, index) => (
             <div className="product-card" key={index}>
-              <div className="product-image-container">
+              <div className={`product-image-container ${imageError[product.image] ? 'image-error' : ''}`}>
                 <img 
                   src={product.image} 
                   alt={product.name} 
-                  className={`product-image ${loadedImages[product.image] ? 'loaded' : ''}`}
+                  className={`product-image ${loadedImages[product.image] ? 'loaded' : ''} ${imageError[product.image] ? 'hidden-image' : ''}`}
                   loading="lazy"
+                  // No onError directly here, handled by preloader
                 />
               </div>
               <div className="product-info">

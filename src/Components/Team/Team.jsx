@@ -50,12 +50,14 @@ const Team = () => {
   const [activeIndex, setActiveIndex] = useState(null);
   const [loadedImages, setLoadedImages] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [imageError, setImageError] = useState({});
 
   // Preload team member images
   useEffect(() => {
     let mounted = true;
     const newLoadedImages = {};
     
+    const newImageError = {};
     const imagePromises = teamMembers.map((member) => {
       return new Promise((resolve) => {
         const img = new Image();
@@ -63,12 +65,14 @@ const Team = () => {
         img.onload = () => {
           if (mounted) {
             newLoadedImages[member.image] = true;
+            newImageError[member.image] = false;
           }
           resolve();
         };
         img.onerror = () => {
           if (mounted) {
             newLoadedImages[member.image] = false;
+            newImageError[member.image] = true;
           }
           resolve();
         };
@@ -79,6 +83,7 @@ const Team = () => {
     Promise.all(imagePromises).then(() => {
       if (mounted) {
         setLoadedImages(newLoadedImages);
+        setImageError(newImageError);
         setTimeout(() => setIsLoading(false), 300); // Small delay for smoother transition
       }
     });
@@ -112,12 +117,12 @@ const Team = () => {
               key={index}
               onClick={() => handleToggle(index)}
             >
-              <div className="image-box">
-                <img 
-                  src={member.image} 
-                  alt={member.name} 
-                  className={`team-photo ${loadedImages[member.image] ? 'loaded' : ''}`}
-                  loading="lazy" 
+              <div className={`image-box ${imageError[member.image] ? 'image-error' : ''}`}>
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  className={`team-photo ${loadedImages[member.image] ? 'loaded' : ''} ${imageError[member.image] ? 'hidden-image' : ''}`}
+                  loading="lazy"
                 />
               </div>
               <h3 className="team-name">{member.name}</h3>

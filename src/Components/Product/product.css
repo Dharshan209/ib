@@ -114,3 +114,12 @@
     padding: 0 var(--space-3);
   }
 }
+
+/* Styles for image error handling */
+.product-image-container.image-error {
+  background-color: #f0f0f0; /* Placeholder background */
+}
+
+.product-image.hidden-image {
+  visibility: hidden; /* Hide the broken image tag */
+}

@@ -146,3 +146,12 @@
     height: 120px;
   }
 }
+
+/* Styles for image error handling */
+.image-box.image-error {
+  background-color: #f0f0f0; /* Placeholder background for the container */
+}
+
+.team-photo.hidden-image {
+  visibility: hidden; /* Hide the broken image tag */
+}

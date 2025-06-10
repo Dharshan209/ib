@@ -10,12 +10,14 @@ const Gallery = () => {
   const images = [img1, img2, img3];
   const [loadedImages, setLoadedImages] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [imageError, setImageError] = useState({});
 
   useEffect(() => {
     // Preload gallery images
     let mounted = true;
     const newLoadedImages = {};
     
+    const newImageError = {};
     const imagePromises = images.map((src) => {
       return new Promise((resolve) => {
         const img = new Image();
@@ -23,12 +25,14 @@ const Gallery = () => {
         img.onload = () => {
           if (mounted) {
             newLoadedImages[src] = true;
+            newImageError[src] = false;
           }
           resolve();
         };
         img.onerror = () => {
           if (mounted) {
             newLoadedImages[src] = false;
+            newImageError[src] = true;
           }
           resolve();
         };
@@ -39,6 +43,7 @@ const Gallery = () => {
     Promise.all(imagePromises).then(() => {
       if (mounted) {
         setLoadedImages(newLoadedImages);
+        setImageError(newImageError);
         setTimeout(() => setIsLoading(false), 300); // Small delay for smoother transition
       }
     });
@@ -63,13 +68,13 @@ const Gallery = () => {
         ) : (
           images.map((src, index) => (
             <div 
-              className="gallery-item" 
+              className={`gallery-item ${imageError[src] ? 'image-error' : ''}`}
               key={index}
             >
               <img 
                 src={src} 
                 alt={`Gallery image ${index + 1}`} 
-                className={`gallery-image ${loadedImages[src] ? 'loaded' : ''}`}
+                className={`gallery-image ${loadedImages[src] ? 'loaded' : ''} ${imageError[src] ? 'hidden-image' : ''}`}
                 loading="lazy"
               />
               <div className="gallery-overlay">

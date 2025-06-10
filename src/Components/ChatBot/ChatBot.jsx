@@ -1,15 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './ChatBot.css';
 
+// Responses object remains the same
 const responses = {
   'hi': 'Hello! How can I help you today?',
   'hello': 'Hi there! How can I assist you with IB services?',
   'what services do you offer': 'We offer solutions in women\'s health, infertility & wellness. Our product line includes fertility supplements, hormonal balance solutions, and specialized wellness products.',
-  'how to contact': 'You can reach us via the Contact Us page or call us at +91-12345-67890.',
+  'how to contact': 'You can reach us via the Contact Us page or call us at +91-12345-67890.', // Example number
   'thank you': 'You\'re welcome! 😊 Is there anything else I can help you with?',
   'products': 'We offer a range of products including ObiPCOS, GYNOSITOL, LetroBoon, OvaGold, MenQMAX, and many more. Would you like specific information about any of these?',
   'about': 'Indian Biologicals PVT Ltd was established in 2011 and is a healthcare organization delivering high-quality medicines in Women\'s Health, Infertility, and Wellness across India.',
+  // Add more specific phrases if needed
+  'default': "I'm sorry, I don't have an answer for that yet. Can I help you with information about our products, services, or how to contact us?"
 };
+
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,19 +23,16 @@ const Chatbot = () => {
   const [isPulsing, setIsPulsing] = useState(true);
   const messagesEndRef = useRef(null);
 
-  // Initialize with welcome message when first opened
   useEffect(() => {
     if (isOpen && messages.length === 0) {
       simulateTyping('Hi there! I\'m IB Assistant. How can I help you today?');
     }
   }, [isOpen, messages.length]);
 
-  // Scroll to bottom whenever messages change
   useEffect(() => {
     scrollToBottom();
   }, [messages.length]);
 
-  // Stop pulsing animation after first open
   useEffect(() => {
     if (isOpen) {
       setIsPulsing(false);
@@ -44,8 +45,7 @@ const Chatbot = () => {
 
   const simulateTyping = (text) => {
     setIsTyping(true);
-    // Simulate typing delay (between 1-2 seconds)
-    const delay = 1000 + Math.random() * 1000;
+    const delay = 800 + Math.random() * 700; // Adjusted typing delay
     setTimeout(() => {
       setIsTyping(false);
       setMessages(prev => [...prev, { type: 'bot', text }]);
@@ -59,23 +59,24 @@ const Chatbot = () => {
     setMessages(prev => [...prev, { type: 'user', text: userMessage }]);
     setInput('');
 
-    // Find matching response
     const lowerMsg = userMessage.toLowerCase();
-    let foundResponse = false;
-    
-    // Check for partial matches
-    for (const key in responses) {
-      if (lowerMsg.includes(key)) {
-        foundResponse = true;
-        simulateTyping(responses[key]);
-        break;
+    let botResponse = null;
+
+    // 1. Check for exact match
+    if (responses[lowerMsg]) {
+      botResponse = responses[lowerMsg];
+    } else {
+      // 2. Fallback to partial match (more specific/longer keys first for better matching)
+      // It's good practice to order keys in `responses` from most specific to least specific if using `includes`
+      const matchingKey = Object.keys(responses)
+                              .sort((a, b) => b.length - a.length) // Sort keys by length descending
+                              .find(key => key !== 'default' && lowerMsg.includes(key));
+      if (matchingKey) {
+        botResponse = responses[matchingKey];
       }
     }
 
-    // If no match found
-    if (!foundResponse) {
-      simulateTyping("I'm sorry, I don't have an answer for that yet. Can I help you with information about our products or services?");
-    }
+    simulateTyping(botResponse || responses['default']);
   };
 
   const handleClose = () => {
