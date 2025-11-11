@@ -1,7 +1,10 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import './Team.css';
+
+// Use HTMLImageElement for native image loading
+const HTMLImage = typeof window !== 'undefined' ? window.Image : null;
 
 interface TeamMember {
   name: string;
@@ -57,6 +60,49 @@ const teamMembers: TeamMember[] = [
 
 const Team = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // Preload team member images
+  useEffect(() => {
+    let mounted = true;
+    const newLoadedImages: Record<string, boolean> = {};
+    
+    const imagePromises = teamMembers.map((member) => {
+      return new Promise<void>((resolve) => {
+        if (!HTMLImage) {
+          resolve();
+          return;
+        }
+        const img = new HTMLImage();
+        img.src = member.image;
+        img.onload = () => {
+          if (mounted) {
+            newLoadedImages[member.image] = true;
+          }
+          resolve();
+        };
+        img.onerror = () => {
+          if (mounted) {
+            newLoadedImages[member.image] = false;
+          }
+          resolve();
+        };
+      });
+    });
+
+    // Set loading state based on image loading
+    Promise.all(imagePromises).then(() => {
+      if (mounted) {
+        setLoadedImages(newLoadedImages);
+        setTimeout(() => setIsLoading(false), 300); // Small delay for smoother transition
+      }
+    });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const handleToggle = (index: number) => {
     setActiveIndex(index === activeIndex ? null : index);
@@ -66,31 +112,40 @@ const Team = () => {
     <div className="leadership-section">
       <h2 className="leadership-title">Leadership Team</h2>
       <div className="team-grid">
-        {teamMembers.map((member, index) => (
-          <div
-            className={`team-card ${activeIndex === index ? 'active' : ''}`}
-            key={index}
-            onClick={() => handleToggle(index)}
-          >
-            <div className="image-box">
-              <Image 
-                src={member.image} 
-                alt={member.name} 
-                width={200}
-                height={200}
-                className="team-photo"
-                priority={index < 3}
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                unoptimized={member.image.endsWith('.svg')}
-              />
+        {isLoading ? (
+          // Loading skeletons
+          Array.from({ length: 7 }).map((_, index) => (
+            <div className="team-card skeleton" key={`skeleton-${index}`}>
+              <div className="image-box skeleton"></div>
+              <div className="skeleton-text"></div>
+              <div className="skeleton-text-small"></div>
             </div>
-            <h3 className="team-name">{member.name}</h3>
-            <p className="team-role">{member.role}</p>
-            <p className={`team-bio ${activeIndex === index ? 'active' : ''}`}>
-              {member.bio}
-            </p>
-          </div>
-        ))}
+          ))
+        ) : (
+          teamMembers.map((member, index) => (
+            <div
+              className={`team-card ${activeIndex === index ? 'active' : ''}`}
+              key={index}
+              onClick={() => handleToggle(index)}
+            >
+              <div className="image-box">
+                <Image 
+                  src={member.image} 
+                  alt={member.name} 
+                  width={200}
+                  height={200}
+                  className={`team-photo ${loadedImages[member.image] ? 'loaded' : ''}`}
+                  loading="lazy" 
+                />
+              </div>
+              <h3 className="team-name">{member.name}</h3>
+              <p className="team-role">{member.role}</p>
+              <p className={`team-bio ${activeIndex === index ? 'active' : ''}`}>
+                {member.bio}
+              </p>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
