@@ -1,12 +1,23 @@
 "use client";
 import React from 'react';
+import Image from 'next/image';
 import './Home.css';
 
 const Home = () => {
   return (
     <div className="home">
       {/* Hero Section */}
-      <section className="hero" style={{ backgroundImage: 'url(/doctor-home.svg)' }}>
+      <section className="hero">
+        <Image
+          src="/doctor-home.svg"
+          alt="Healthcare professional"
+          fill
+          priority
+          className="hero-background"
+          sizes="100vw"
+          unoptimized
+          style={{ objectFit: 'cover', objectPosition: 'center' }}
+        />
       </section>
 
       {/* About Section */}

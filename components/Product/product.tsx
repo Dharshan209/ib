@@ -1,10 +1,7 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import './product.css';
-
-// Use HTMLImageElement for native image loading
-const HTMLImage = typeof window !== 'undefined' ? window.Image : null;
 
 interface Product {
   name: string;
@@ -32,51 +29,6 @@ const productData: Product[] = [
 ];
 
 const Products = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
-
-  useEffect(() => {
-    // Preload images
-    let mounted = true;
-    const newLoadedImages: Record<string, boolean> = {};
-    
-    const imagePromises = productData.map((product) => {
-      return new Promise<void>((resolve) => {
-        if (!HTMLImage) {
-          resolve();
-          return;
-        }
-        const img = new HTMLImage();
-        img.src = product.image;
-        img.onload = () => {
-          if (mounted) {
-            newLoadedImages[product.image] = true;
-          }
-          resolve();
-        };
-        img.onerror = () => {
-          if (mounted) {
-            newLoadedImages[product.image] = false;
-          }
-          resolve();
-        };
-      });
-    });
-
-    // Set loading state based on image loading
-    Promise.all(imagePromises).then(() => {
-      if (mounted) {
-        setLoadedImages(newLoadedImages);
-        setTimeout(() => setIsLoading(false), 300); // Small delay for smoother transition
-      }
-    });
-
-    return () => {
-      // Cleanup
-      mounted = false;
-    };
-  }, []);
-
   return (
     <div className="products-container fade-in">
       <h2 className="section-title">Health & Wellness Products</h2>
@@ -85,35 +37,25 @@ const Products = () => {
       </p>
 
       <div className="products-grid">
-        {isLoading ? (
-          // Loading skeletons
-          Array.from({ length: 8 }).map((_, index) => (
-            <div className="product-card" key={`skeleton-${index}`}>
-              <div className="product-image-container skeleton"></div>
-              <div className="product-info">
-                <div className="skeleton" style={{ height: '24px', width: '70%', marginBottom: '8px' }}></div>
-              </div>
+        {productData.map((product, index) => (
+          <div className="product-card" key={index}>
+            <div className="product-image-container">
+              <Image 
+                src={product.image} 
+                alt={product.name} 
+                width={300}
+                height={300}
+                className="product-image"
+                priority={index < 4}
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                unoptimized={product.image.endsWith('.svg')}
+              />
             </div>
-          ))
-        ) : (
-          productData.map((product, index) => (
-            <div className="product-card" key={index}>
-              <div className="product-image-container">
-                <Image 
-                  src={product.image} 
-                  alt={product.name} 
-                  width={300}
-                  height={300}
-                  className={`product-image ${loadedImages[product.image] ? 'loaded' : ''}`}
-                  loading="lazy"
-                />
-              </div>
-              <div className="product-info">
-                <h3 className="product-name">{product.name}</h3>
-              </div>
+            <div className="product-info">
+              <h3 className="product-name">{product.name}</h3>
             </div>
-          ))
-        )}
+          </div>
+        ))}
       </div>
     </div>
   );

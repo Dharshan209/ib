@@ -58,7 +58,9 @@ function Header() {
             alt="Indian Biologicals" 
             width={50}
             height={50}
-            className="logo" 
+            className="logo"
+            priority
+            unoptimized
           />
         </Link>
       </div>
@@ -101,7 +103,9 @@ function Header() {
             alt="Indian Biologicals" 
             width={50}
             height={50}
-            className="mobile-logo" 
+            className="mobile-logo"
+            priority
+            unoptimized
           />
           <button 
             className="mobile-close-button"

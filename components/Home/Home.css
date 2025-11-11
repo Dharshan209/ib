@@ -41,12 +41,15 @@
   /* Hero Section */
   .hero {
     height: 90vh;
-    background-size: cover;
-    background-position: center;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-background {
+    z-index: 0;
   }
   
   /* About Section */
