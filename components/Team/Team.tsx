@@ -70,12 +70,20 @@ const teamMembers: TeamMember[] = [
   expertise: ['Product Innovation', 'Chemistry', 'Healthcare Solutions', 'Scientific Knowledge']
   },
   {
-    name: 'N. Yuvashri',
-    role: 'Clinical Study Startup Associate',
+    name: 'Mrs. Yuvashree. N',
+    role: 'Product Trainer',
     image: '/Team/yuvashri.svg',
-    bio: 'N. Yuvashri is a Clinical Study Startup Associate with extensive experience in clinical research and pharmacovigilance. A University Gold Medalist in B. Pharmacy, she specializes in site initiation, regulatory compliance, and clinical document handling. Her background includes significant contributions to clinical study startups at Ethos Clinical Research and Kairos R&D Solution, where she managed complex R&D projects and ensured adherence to ICH-GCP and FDA-IRB standards.',
+    bio: 'Mrs. Yuvashree is a Product Trainer with proven expertise in product science, pharmacology, and clinical applications. She is a Bachelor of Pharmacy graduate and a Gold Medalist, demonstrating outstanding academic achievement and a strong foundation in pharmaceutical sciences. She specializes in delivering clear, structured, and evidence-based training on mechanism of action, clinical benefits, and safety profiles, enabling teams to communicate product information with confidence, accuracy, and regulatory compliance.',
     linkedin: '#',
-    expertise: ['Clinical Research', 'Pharmacovigilance', 'Regulatory Compliance', 'Medical Writing', 'Clinical Trial Coordination']
+    expertise: ['Product Science', 'Pharmacology', 'Clinical Applications', 'Regulatory Compliance']
+  },
+  {
+    name: 'Dharshan Senthil',
+    role: 'Technical Head',
+    image: '/Team/Dharshan.svg',
+    bio: 'Dharshan Senthil is an innovative leader serving as the Technical Head. With a B.Tech degree and a passion for technology, he drives the technical vision of the company, implementing cutting-edge solutions to complex problems.',
+    linkedin: '#',
+    expertise: ['Technical Leadership', 'Innovation', 'Software Development']
   },
 ];
 
