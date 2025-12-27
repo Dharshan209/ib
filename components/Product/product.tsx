@@ -1,17 +1,12 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import './product.css';
-
-// Use HTMLImageElement for native image loading
-const HTMLImage = typeof window !== 'undefined' ? window.Image : null;
 
 interface Product {
   name: string;
   image: string;
 }
 
-// Simplified product data without categories and descriptions
 const productData: Product[] = [
   { name: 'ObiPCOS', image: '/Products/ObiPCOS.svg' },
   { name: 'GYNOSITOL', image: '/Products/GYNOSITOL.svg' },
@@ -33,87 +28,58 @@ const productData: Product[] = [
 
 const Products = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
-    // Preload images
-    let mounted = true;
-    const newLoadedImages: Record<string, boolean> = {};
-    
-    const imagePromises = productData.map((product) => {
-      return new Promise<void>((resolve) => {
-        if (!HTMLImage) {
-          resolve();
-          return;
-        }
-        const img = new HTMLImage();
-        img.src = product.image;
-        img.onload = () => {
-          if (mounted) {
-            newLoadedImages[product.image] = true;
-          }
-          resolve();
-        };
-        img.onerror = () => {
-          if (mounted) {
-            newLoadedImages[product.image] = false;
-          }
-          resolve();
-        };
-      });
-    });
-
-    // Set loading state based on image loading
-    Promise.all(imagePromises).then(() => {
-      if (mounted) {
-        setLoadedImages(newLoadedImages);
-        setTimeout(() => setIsLoading(false), 300); // Small delay for smoother transition
-      }
-    });
-
-    return () => {
-      // Cleanup
-      mounted = false;
-    };
+    const timer = setTimeout(() => setIsLoading(false), 800);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="products-container fade-in">
-      <h2 className="section-title">Health & Wellness Products</h2>
-      <p className="section-subtitle">
-        Discover our premium range of supplements designed to support your health journey.
-      </p>
+    <div className="pt-32 pb-24 px-6 bg-slate-50 min-h-screen">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-16 animate-fade-in">
+          <h1 className="text-4xl md:text-5xl font-black text-primary mb-4">Health & Wellness Products</h1>
+          <div className="w-24 h-2 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full mb-6"></div>
+          <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            Scientifically formulated solutions designed to support your journey towards optimal health and well-being.
+          </p>
+        </div>
 
-      <div className="products-grid">
-        {isLoading ? (
-          // Loading skeletons
-          Array.from({ length: 8 }).map((_, index) => (
-            <div className="product-card" key={`skeleton-${index}`}>
-              <div className="product-image-container skeleton"></div>
-              <div className="product-info">
-                <div className="skeleton" style={{ height: '24px', width: '70%', marginBottom: '8px' }}></div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {isLoading ? (
+            Array.from({ length: 8 }).map((_, index) => (
+              <div key={index} className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
+                <div className="aspect-square shimmer rounded-2xl mb-6"></div>
+                <div className="h-6 shimmer w-3/4 rounded-md mx-auto"></div>
               </div>
-            </div>
-          ))
-        ) : (
-          productData.map((product, index) => (
-            <div className="product-card" key={index}>
-              <div className="product-image-container">
-                <Image 
-                  src={product.image} 
-                  alt={product.name} 
-                  width={300}
-                  height={300}
-                  className={`product-image ${loadedImages[product.image] ? 'loaded' : ''}`}
-                  loading="lazy"
-                />
+            ))
+          ) : (
+            productData.map((product, index) => (
+              <div 
+                key={index} 
+                className="group bg-white rounded-3xl p-6 shadow-sm border border-slate-100 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 flex flex-col items-center text-center"
+              >
+                <div className="relative w-full aspect-square mb-6 overflow-hidden rounded-2xl bg-slate-50 flex items-center justify-center p-4">
+                  <Image 
+                    src={product.image} 
+                    alt={product.name} 
+                    width={250}
+                    height={250}
+                    className="object-contain w-full h-full transition-transform duration-500 group-hover:scale-110"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors duration-500"></div>
+                </div>
+                <h3 className="text-xl font-bold text-primary group-hover:text-secondary transition-colors duration-300">
+                  {product.name}
+                </h3>
+                <button className="mt-4 px-6 py-2 rounded-full border border-slate-200 text-sm font-bold text-slate-500 hover:bg-primary hover:text-white hover:border-primary transition-all duration-300 opacity-0 group-hover:opacity-100">
+                  View Details
+                </button>
               </div>
-              <div className="product-info">
-                <h3 className="product-name">{product.name}</h3>
-              </div>
-            </div>
-          ))
-        )}
+            ))
+          )}
+        </div>
       </div>
     </div>
   );

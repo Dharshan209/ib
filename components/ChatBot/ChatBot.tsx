@@ -1,6 +1,12 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
-import './ChatBot.css';
+import { 
+  MessageCircle, 
+  X, 
+  Bot, 
+  Send,
+  User
+} from 'lucide-react';
 
 interface Message {
   type: 'user' | 'bot';
@@ -25,33 +31,23 @@ const Chatbot = () => {
   const [isPulsing, setIsPulsing] = useState<boolean>(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Initialize with welcome message when first opened
   useEffect(() => {
     if (isOpen && messages.length === 0) {
       simulateTyping('Hi there! I\'m IB Assistant. How can I help you today?');
     }
   }, [isOpen, messages.length]);
 
-  // Scroll to bottom whenever messages change
   useEffect(() => {
-    scrollToBottom();
-  }, [messages.length]);
-
-  // Stop pulsing animation after first open
-  useEffect(() => {
-    if (isOpen) {
-      setIsPulsing(false);
-    }
-  }, [isOpen]);
-
-  const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  }, [messages.length, isTyping]);
+
+  useEffect(() => {
+    if (isOpen) setIsPulsing(false);
+  }, [isOpen]);
 
   const simulateTyping = (text: string) => {
     setIsTyping(true);
-    // Simulate typing delay (between 1-2 seconds)
-    const delay = 1000 + Math.random() * 1000;
+    const delay = 1000 + Math.random() * 800;
     setTimeout(() => {
       setIsTyping(false);
       setMessages(prev => [...prev, { type: 'bot', text }]);
@@ -60,16 +56,12 @@ const Chatbot = () => {
 
   const handleSend = () => {
     if (!input.trim()) return;
-
     const userMessage = input.trim();
     setMessages(prev => [...prev, { type: 'user', text: userMessage }]);
     setInput('');
 
-    // Find matching response
     const lowerMsg = userMessage.toLowerCase();
     let foundResponse = false;
-    
-    // Check for partial matches
     for (const key in responses) {
       if (lowerMsg.includes(key)) {
         foundResponse = true;
@@ -77,64 +69,109 @@ const Chatbot = () => {
         break;
       }
     }
-
-    // If no match found
     if (!foundResponse) {
       simulateTyping("I'm sorry, I don't have an answer for that yet. Can I help you with information about our products or services?");
     }
   };
 
-  const handleClose = () => {
-    setIsOpen(false);
-  };
-
   return (
-    <div className="chatbot-box">
-      <div 
-        className={`chatbot-toggle ${isPulsing ? 'pulse' : ''}`} 
+    <div className="fixed bottom-8 right-8 z-[100] font-sans">
+      {/* Floating Toggle Button */}
+      <button 
         onClick={() => setIsOpen(!isOpen)}
-        aria-label="Open chat assistant"
+        className={`w-14 h-14 md:w-16 md:h-16 bg-primary text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 active:scale-90 transition-all duration-300 relative group overflow-hidden ${
+          isPulsing ? 'animate-bounce' : ''
+        }`}
+        aria-label="Toggle chat assistant"
       >
-        <span className="chatbot-toggle-icon">💬</span>
-      </div>
+        <div className="absolute inset-0 bg-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <div className="relative z-10 transition-transform duration-300 group-hover:rotate-12">
+          {isOpen ? <X className="w-6 h-6 md:w-8 md:h-8" /> : <MessageCircle className="w-6 h-6 md:w-8 md:h-8" />}
+        </div>
+        {isPulsing && (
+          <span className="absolute -top-1 -right-1 flex h-4 w-4">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-4 w-4 bg-secondary"></span>
+          </span>
+        )}
+      </button>
 
+      {/* Chat Window */}
       {isOpen && (
-        <div className="chatbot-window">
-          <div className="chatbot-header">
-            <div className="chatbot-header-text">IB Assistant</div>
-            <div className="chatbot-close" onClick={handleClose}>✕</div>
+        <div className="absolute bottom-20 right-0 w-[calc(100vw-4rem)] md:w-96 h-[500px] max-h-[70vh] bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 flex flex-col overflow-hidden animate-slide-up">
+          {/* Header */}
+          <div className="bg-primary p-6 text-white flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center">
+                <Bot className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h3 className="font-bold text-lg leading-none mb-1">IB Assistant</h3>
+                <p className="text-[10px] uppercase tracking-widest text-secondary font-black">Always Online</p>
+              </div>
+            </div>
+            <button onClick={() => setIsOpen(false)} className="hover:bg-white/10 p-2 rounded-lg transition-colors">
+              <X className="w-5 h-5 text-white/50" />
+            </button>
           </div>
-          <div className="chatbot-messages">
+
+          {/* Messages Area */}
+          <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-50/50">
             {messages.map((msg, idx) => (
-              <div key={idx} className={`message ${msg.type}`}>{msg.text}</div>
+              <div 
+                key={idx} 
+                className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in`}
+              >
+                <div className="flex gap-2 max-w-[85%]">
+                  {msg.type === 'bot' && (
+                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                      <Bot className="w-4 h-4 text-primary" />
+                    </div>
+                  )}
+                  <div className={`px-5 py-3 rounded-2xl text-sm leading-relaxed shadow-sm ${
+                    msg.type === 'user' 
+                      ? 'bg-primary text-white rounded-tr-none' 
+                      : 'bg-white text-slate-700 border border-slate-100 rounded-tl-none'
+                  }`}>
+                    {msg.text}
+                  </div>
+                  {msg.type === 'user' && (
+                    <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0">
+                      <User className="w-4 h-4 text-white" />
+                    </div>
+                  )}
+                </div>
+              </div>
             ))}
+            
             {isTyping && (
-              <div className="chatbot-typing">
-                <div className="typing-dot"></div>
-                <div className="typing-dot"></div>
-                <div className="typing-dot"></div>
+              <div className="flex justify-start">
+                <div className="bg-white border border-slate-100 px-5 py-3 rounded-2xl rounded-tl-none flex gap-1 ml-10">
+                  <div className="w-1.5 h-1.5 bg-slate-300 rounded-full animate-bounce"></div>
+                  <div className="w-1.5 h-1.5 bg-slate-300 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+                  <div className="w-1.5 h-1.5 bg-slate-300 rounded-full animate-bounce [animation-delay:0.4s]"></div>
+                </div>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
-          <div className="chatbot-input">
-            <div className="chatbot-input-wrapper">
+
+          {/* Input Area */}
+          <div className="p-4 bg-white border-t border-slate-100">
+            <div className="relative flex items-center gap-2">
               <input
+                type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                placeholder="Type your message..."
-                aria-label="Chat message input"
+                placeholder="Type a message..."
+                className="flex-1 bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-primary transition-colors text-sm"
               />
               <button 
-                className="chatbot-send-button" 
                 onClick={handleSend}
-                aria-label="Send message"
+                className="w-12 h-12 bg-primary text-white rounded-xl flex items-center justify-center hover:bg-secondary transition-colors shrink-0 shadow-lg shadow-primary/20"
               >
-                <svg className="chatbot-send-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                <Send className="w-5 h-5" />
               </button>
             </div>
           </div>
