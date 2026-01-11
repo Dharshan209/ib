@@ -79,11 +79,11 @@ const teamMembers: TeamMember[] = [
   },
   {
     name: 'Dharshan Senthil',
-    role: 'Technical Head',
+    role: 'Chief Technical Officer',
     image: '/Team/Dharshan.svg',
-    bio: 'Dharshan Senthil is an innovative leader serving as the Technical Head. With a B.Tech degree and a passion for technology, he drives the technical vision of the company, implementing cutting-edge solutions to complex problems.',
+    bio: 'An innovative and strategic technical professional with strong expertise in report management, data analysis, and high-impact digital presentation development. As Technical Head, he plays a vital role in ensuring accurate reporting, data integrity, and effective technical communication, thereby supporting informed management decisions and organizational excellence through structured execution and digital precision.',
     linkedin: '#',
-    expertise: ['Technical Leadership', 'Innovation', 'Software Development']
+    expertise: ['Report Management', 'Data Analysis', 'Digital Presentation']
   },
 ];
 

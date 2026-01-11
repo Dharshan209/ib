@@ -105,9 +105,11 @@ const CSR = () => {
           </div>
           <h1 className="text-5xl md:text-7xl font-black text-primary mb-6 tracking-tight">Our Commitment <br /> to <span className="text-secondary bg-clip-text">Community</span></h1>
           <div className="w-32 h-2.5 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full mb-8"></div>
-          <p className="text-xl text-slate-500 max-w-3xl mx-auto leading-relaxed font-medium italic">
-            At Indian Biologicals, we believe that true excellence is measured by the lives we touch and the positive change we foster in society.
-          </p>
+          <div className="mt-8 max-w-4xl mx-auto">
+             <p className="text-xl md:text-2xl text-slate-600 font-serif italic leading-relaxed">
+              &ldquo;At Indian Biologicals, true excellence goes beyond success—it is reflected in the lives we touch and the lasting positive impact we create in society.&rdquo;
+            </p>
+          </div>
         </div>
 
         {error && (
@@ -136,7 +138,7 @@ const CSR = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {isLoading ? (
             Array.from({ length: 6 }).map((_, index) => (
-              <div key={index} className="bg-slate-50 rounded-[3rem] h-[500px] shimmer flex flex-col p-6">
+              <div key={index} className="bg-slate-50 rounded-[3rem] aspect-square shimmer flex flex-col p-6">
                 <div className="w-full grow bg-slate-200/50 rounded-[2.5rem] mb-6"></div>
                 <div className="h-8 bg-slate-200/50 rounded-full w-3/4 mb-4"></div>
                 <div className="h-4 bg-slate-200/50 rounded-full w-1/2"></div>
@@ -149,7 +151,7 @@ const CSR = () => {
                 <div 
                   key={file.id} 
                   onClick={() => openModal(file)}
-                  className="group relative h-[500px] rounded-[3rem] overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-700 animate-slide-up"
+                  className="group relative aspect-square rounded-[3rem] overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-700 animate-slide-up"
                   style={{ animationDelay: `${index * 150}ms` }}
                 >
                   {/* Photo Layer */}
@@ -163,23 +165,8 @@ const CSR = () => {
                     referrerPolicy="no-referrer"
                   />
                   
-                  {/* Glass Overlay Layer */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-700"></div>
-                  
-                  {/* Content Container */}
-                  <div className="absolute inset-x-4 bottom-4 p-8 bg-white/10 backdrop-blur-xl border border-white/20 rounded-[2.5rem] transform translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
-                    <div className="absolute -top-10 right-8 w-16 h-16 bg-white rounded-2xl shadow-xl flex items-center justify-center text-primary group-hover:bg-secondary group-hover:text-white transition-all duration-500 scale-90 group-hover:scale-100">
-                      <Icon className="w-8 h-8" />
-                    </div>
-                    
-                    <h3 className="text-2xl font-black text-white mb-2 leading-tight">
-                      {file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, ' ')}
-                    </h3>
-                    <div className="flex items-center gap-2 text-white/70 text-sm font-bold uppercase tracking-widest">
-                      <span>View Project Details</span>
-                      <Maximize2 className="w-4 h-4" />
-                    </div>
-                  </div>
+                  {/* Glass Overlay Layer - Simplified */}
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                 </div>
               );
             })
@@ -199,61 +186,27 @@ const CSR = () => {
       {selectedFile && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-10 animate-fade-in">
           <div 
-            className="absolute inset-0 bg-primary/60 backdrop-blur-md"
+            className="absolute inset-0 bg-black/90 backdrop-blur-md"
             onClick={closeModal}
           ></div>
           
-          <div className="bg-white w-full max-w-5xl rounded-[3rem] shadow-2xl relative z-[110] overflow-hidden flex flex-col md:flex-row animate-scale-up max-h-[90vh]">
+          <div className="w-full max-w-6xl max-h-[90vh] relative z-[110] flex flex-col items-center justify-center animate-scale-up">
             <button 
               onClick={closeModal}
-              className="absolute top-6 right-6 w-14 h-14 bg-white/80 backdrop-blur-md hover:bg-primary hover:text-white rounded-2xl flex items-center justify-center transition-all z-20 group shadow-lg"
+              className="absolute -top-12 right-0 md:-right-12 text-white/80 hover:text-white transition-colors z-20"
             >
-              <X className="w-7 h-7 group-hover:rotate-90 transition-transform" />
+              <X className="w-10 h-10" />
             </button>
 
-            <div className="md:w-3/5 relative h-96 md:h-auto bg-slate-100">
+            <div className="relative w-full h-[80vh] rounded-[2rem] overflow-hidden bg-black/50 shadow-2xl">
               <Image 
                 src={getHighResLink(selectedFile.id)} 
                 alt={selectedFile.name} 
                 fill
-                className="object-cover"
+                className="object-contain"
                 unoptimized
                 referrerPolicy="no-referrer"
               />
-            </div>
-
-            <div className="md:w-2/5 p-10 md:p-14 flex flex-col justify-center overflow-y-auto">
-              <div className="mb-10">
-                <span className="inline-flex items-center gap-2 px-5 py-1.5 bg-secondary/10 text-secondary text-xs font-black uppercase tracking-widest rounded-full mb-6">
-                  <Activity className="w-4 h-4" />
-                  Impact Story
-                </span>
-                <h2 className="text-4xl font-black text-primary leading-tight mb-4">
-                  {selectedFile.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, ' ')}
-                </h2>
-                <div className="h-1.5 w-20 bg-secondary rounded-full"></div>
-              </div>
-
-              <div className="space-y-8">
-                <div>
-                  <h4 className="text-[10px] font-black text-primary/40 uppercase tracking-[0.2em] mb-4 flex items-center gap-3">
-                    Mission Details
-                    <div className="h-px bg-primary/10 flex-1"></div>
-                  </h4>
-                  <p className="text-slate-600 leading-relaxed text-lg italic">
-                    {selectedFile.description || "Every journey of success is incomplete without giving back to the roots. This initiative represents our dedication to communal growth and health accessibility."}
-                  </p>
-                </div>
-
-                <div className="pt-8 flex flex-wrap gap-3 mt-auto">
-                  <div className="px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-xs font-black text-primary/60 uppercase tracking-widest">
-                    #IndianBiologicals
-                  </div>
-                  <div className="px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-xs font-black text-primary/60 uppercase tracking-widest">
-                    #GivingBack
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
