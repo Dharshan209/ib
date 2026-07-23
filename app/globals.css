@@ -2,12 +2,18 @@
 @config "../tailwind.config.ts";
 
 :root {
-  --primary: #0a3d62;
-  --primary-dark: #051e31;
-  --secondary: #3498db;
-  --background: #ffffff;
-  --foreground: #1a202c;
-  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --primary: #3B8F00;
+  --primary-dark: #2F7100;
+  --secondary: #D9692F;
+  --background: #FAFAF6;
+  --foreground: #17173A;
+  --font-family: var(--font-plex-sans), system-ui, -apple-system, sans-serif;
+
+  --ring: 0 0 0 3px rgba(70, 168, 0, .32);
+  --e-1: 0 1px 2px rgba(0, 0, 60, .06);
+  --e-2: 0 2px 4px rgba(0, 0, 60, .06), 0 1px 2px rgba(0, 0, 60, .08);
+  --e-3: 0 8px 22px -8px rgba(0, 0, 60, .16);
+  --e-4: 0 20px 44px -14px rgba(0, 0, 60, .22);
 }
 
 @layer base {
@@ -23,7 +29,7 @@
 
 @layer components {
   .glass-header {
-    @apply bg-white/80 backdrop-blur-md border-b border-white/20 transition-all duration-300;
+    @apply bg-paper/85 backdrop-blur-md border-b border-line transition-all duration-300;
   }
 
   .btn-primary {
@@ -35,7 +41,11 @@
   }
 
   .nav-link-modern {
-    @apply relative text-sm font-medium text-slate-600 hover:text-primary transition-colors duration-200 after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 hover:after:w-full;
+    @apply relative text-sm font-medium text-ink-2 hover:text-primary transition-colors duration-200 after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 hover:after:w-full;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 font-mono text-[11px] tracking-[.12em] uppercase text-green-ink bg-green-50 border border-green-100 rounded-full px-3 py-1.5;
   }
 }
 
@@ -75,6 +85,26 @@
   }
 }
 
+@keyframes ibFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-9px); }
+}
+
+@keyframes ibDrift {
+  0% { background-position: 0 0; }
+  100% { background-position: 44px 44px; }
+}
+
+@keyframes fillBar {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+@keyframes ibGlow {
+  0%, 100% { opacity: .5; transform: scale(1); }
+  50% { opacity: .85; transform: scale(1.06); }
+}
+
 .animate-fade-in {
   animation: fadeIn 0.8s ease-out forwards;
 }
@@ -86,6 +116,28 @@
 
 .animate-scale-up {
   animation: scaleUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-float {
+  animation: ibFloat 6s cubic-bezier(.2, .8, .2, 1) infinite;
+}
+
+.animate-drift {
+  animation: ibDrift 22s linear infinite;
+}
+
+.animate-glow {
+  animation: ibGlow 7s cubic-bezier(.2, .8, .2, 1) infinite;
+}
+
+.grid-texture {
+  background-image: linear-gradient(rgba(0, 0, 60, .04) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 60, .04) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.grid-texture-dark {
+  background-image: linear-gradient(rgba(255, 255, 255, .05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .05) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
 
 .shimmer {
@@ -101,5 +153,13 @@
 
   100% {
     background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in, .animate-slide-up, .animate-scale-up, .animate-float, .animate-drift, .animate-glow {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

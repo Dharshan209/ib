@@ -1,199 +1,141 @@
 "use client";
-import React, { useState, ChangeEvent, FormEvent } from 'react';
-import { MapPin, Phone, Mail, Send, AlertTriangle, CheckCircle2 } from 'lucide-react';
-
-interface FormData {
-  name: string;
-  email: string;
-  phone: string;
-  message: string;
-}
-
-interface FormStatus {
-  submitted: boolean;
-  error: boolean;
-  message: string;
-}
+import React, { useState, FormEvent } from 'react';
+import Link from 'next/link';
 
 const Contact = () => {
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    phone: '',
-    message: ''
-  });
-  
-  const [formStatus, setFormStatus] = useState<FormStatus>({
-    submitted: false,
-    error: false,
-    message: ''
-  });
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prevData => ({
-      ...prevData,
-      [name]: value
-    }));
-  };
+  const [sent, setSent] = useState(false);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setFormStatus({
-      submitted: true,
-      error: false,
-      message: 'Thank you! Your message has been sent successfully.'
-    });
-    
-    setTimeout(() => {
-      setFormData({ name: '', email: '', phone: '', message: '' });
-      setFormStatus({ submitted: false, error: false, message: '' });
-    }, 5000);
+    setSent(true);
   };
 
   return (
-    <div className="pt-32 pb-24 bg-white min-h-screen">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-20 animate-fade-in">
-          <h1 className="text-4xl md:text-5xl font-black text-primary mb-4">Connect With Us</h1>
-          <div className="w-24 h-2 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full mb-6"></div>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Have questions about our products or services? Our team is here to provide the support you need.
-          </p>
+    <div className="pt-10 pb-20 px-6 md:px-7 bg-paper min-h-screen">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex gap-2 items-center text-[13px] text-ink-2 mb-6">
+          <Link href="/" className="text-green-ink">Home</Link>
+          <span className="text-ink-3">/</span>
+          <span className="text-ink">Contact</span>
         </div>
+        <div className="font-mono text-xs tracking-[.14em] text-green-ink uppercase mb-3">Get in touch</div>
+        <h1 className="font-semibold text-4xl md:text-[42px] tracking-[-0.03em] text-navy mb-3">Contact Indian Biologicals</h1>
+        <p className="text-[17px] text-ink-2 max-w-[56ch] mb-9">
+          For product information, prescriber support or distribution enquiries. Our medical affairs team responds within two business days.
+        </p>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-          {/* Contact Info */}
-          <div className="lg:col-span-5 space-y-10">
-            <div className="bg-primary rounded-[3rem] p-12 text-white shadow-2xl relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 transition-transform duration-500 group-hover:scale-150"></div>
-              
-              <h2 className="text-3xl font-black mb-10">Contact Information</h2>
-              
-              <div className="space-y-8">
-                <div className="flex items-start gap-6">
-                  <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center shrink-0">
-                    <MapPin className="w-6 h-6 text-white" />
+        <div className="grid lg:grid-cols-[1.25fr_.75fr] gap-9 items-start">
+          {/* form */}
+          <div className="bg-surface border border-line rounded-lg shadow-[var(--e-2)] p-7">
+            {!sent ? (
+              <form onSubmit={handleSubmit}>
+                <div className="grid sm:grid-cols-2 gap-[18px]">
+                  <div>
+                    <label className="block text-[13px] font-semibold text-ink mb-1.5">Full name</label>
+                    <input
+                      placeholder="Dr. Anjali Rao"
+                      required
+                      className="w-full font-sans text-[15px] text-ink bg-surface border border-line-strong rounded-md px-3.5 py-2.5 focus:outline-none focus:border-green-400 focus:ring-[3px] focus:ring-green-400/30"
+                    />
                   </div>
                   <div>
-                    <h4 className="font-bold text-secondary uppercase tracking-widest text-xs mb-1">Our Office</h4>
-                    <p className="text-slate-200 leading-relaxed">
-                      No. 14(51), First Floor, Brindhavan Street Extn,<br />
-                      West Mambalam, Chennai - 600033
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-6">
-                  <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center shrink-0">
-                    <Phone className="w-6 h-6 text-white" />
+                    <label className="block text-[13px] font-semibold text-ink mb-1.5">Institution email</label>
+                    <input
+                      type="email"
+                      placeholder="anjali@hospital.org"
+                      required
+                      className="w-full font-sans text-[15px] text-ink bg-surface border border-line-strong rounded-md px-3.5 py-2.5 focus:outline-none focus:border-green-400 focus:ring-[3px] focus:ring-green-400/30"
+                    />
                   </div>
                   <div>
-                    <h4 className="font-bold text-secondary uppercase tracking-widest text-xs mb-1">Phone Numbers</h4>
-                    <div className="space-y-1">
-                      <p><a href="tel:7373739309" className="hover:text-secondary transition-colors">7373739309</a> / <a href="tel:9566997865" className="hover:text-secondary transition-colors">9566997865</a></p>
-                      <p><a href="tel:04435949528" className="hover:text-secondary transition-colors">044-35949528</a></p>
+                    <label className="block text-[13px] font-semibold text-ink mb-1.5">Role</label>
+                    <div className="relative">
+                      <select className="w-full font-sans text-[15px] text-ink bg-surface border border-line-strong rounded-md py-2.5 pl-3.5 pr-8 appearance-none cursor-pointer">
+                        <option>Clinician / prescriber</option>
+                        <option>Distributor / trade partner</option>
+                        <option>Patient / caregiver</option>
+                        <option>Other</option>
+                      </select>
+                      <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-ink-3 font-mono pointer-events-none">▾</span>
                     </div>
                   </div>
-                </div>
-
-                <div className="flex items-start gap-6">
-                  <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center shrink-0">
-                    <Mail className="w-6 h-6 text-white" />
-                  </div>
                   <div>
-                    <h4 className="font-bold text-secondary uppercase tracking-widest text-xs mb-1">Email Us</h4>
-                    <p><a href="mailto:admin@indianbiologicals.com" className="hover:text-secondary transition-colors">admin@indianbiologicals.com</a></p>
+                    <label className="block text-[13px] font-semibold text-ink mb-1.5">Subject</label>
+                    <div className="relative">
+                      <select className="w-full font-sans text-[15px] text-ink bg-surface border border-line-strong rounded-md py-2.5 pl-3.5 pr-8 appearance-none cursor-pointer">
+                        <option>Product information</option>
+                        <option>Distribution enquiry</option>
+                        <option>Medical / prescriber support</option>
+                        <option>Adverse-event report</option>
+                      </select>
+                      <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-ink-3 font-mono pointer-events-none">▾</span>
+                    </div>
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className="block text-[13px] font-semibold text-ink mb-1.5">Message</label>
+                    <textarea
+                      rows={4}
+                      placeholder="How can we help?"
+                      required
+                      className="w-full font-sans text-[15px] text-ink bg-surface border border-line-strong rounded-md px-3.5 py-2.5 resize-y focus:outline-none focus:border-green-400 focus:ring-[3px] focus:ring-green-400/30"
+                    ></textarea>
                   </div>
                 </div>
-              </div>
-            </div>
-
-            <div className="rounded-[3rem] overflow-hidden shadow-xl border-8 border-slate-50 aspect-video lg:aspect-square relative group">
-              <iframe
-                title="Office Location"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31103.658353016267!2d80.2105136!3d13.0412781!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5266f751928135%3A0x9d47028931eb7a89!2sWest%20Mambalam%2C%20Chennai%2C%20Tamil%20Nadu%20600033!5e0!3m2!1sen!2sin!4v1713358906810!5m2!1sen!2sin"
-                className="absolute inset-0 w-full h-full grayscale hover:grayscale-0 transition-all duration-700"
-                loading="lazy"
-              ></iframe>
-            </div>
-          </div>
-
-          {/* Contact Form */}
-          <div className="lg:col-span-7 bg-slate-50 rounded-[3rem] p-10 md:p-16 border border-slate-100">
-            <h3 className="text-3xl font-black text-primary mb-10">Send a Message</h3>
-            
-            {formStatus.submitted && (
-              <div className={`mb-8 p-6 rounded-3xl animate-fade-in ${formStatus.error ? 'bg-red-50 text-red-700 border border-red-100' : 'bg-green-50 text-green-700 border border-green-100'}`}>
-                <div className="flex items-center gap-3">
-                  <span className="shrink-0">
-                    {formStatus.error ? <AlertTriangle className="w-6 h-6" /> : <CheckCircle2 className="w-6 h-6" />}
-                  </span>
-                  <p className="font-bold">{formStatus.message}</p>
+                <div className="flex justify-between items-center flex-wrap gap-3 mt-5">
+                  <span className="text-[12.5px] text-ink-3 max-w-[38ch]">By submitting you confirm the information is for professional use where applicable.</span>
+                  <button
+                    type="submit"
+                    className="font-semibold text-[15px] text-white bg-green-600 hover:bg-green-700 rounded-md px-6 py-3 transition-colors"
+                  >
+                    Send enquiry
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <div className="flex gap-3.5 items-start p-[22px] bg-success-bg border border-[#CDE8B4] rounded-md">
+                <span className="text-success font-bold text-xl">✓</span>
+                <div>
+                  <div className="font-semibold text-[17px] text-success mb-1">Enquiry received</div>
+                  <div className="text-sm text-ink-2">Thank you — our medical affairs team will respond within two business days. (Demo form — no data is sent.)</div>
+                  <button
+                    onClick={() => setSent(false)}
+                    className="mt-3.5 font-semibold text-sm text-green-ink bg-surface border border-line-strong rounded-md px-4 py-2.5"
+                  >
+                    Send another
+                  </button>
                 </div>
               </div>
             )}
-            
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-500 uppercase tracking-widest ml-1">Your Name</label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full bg-white border-2 border-slate-100 rounded-2xl px-6 py-4 outline-none focus:border-primary focus:ring-4 focus:ring-primary/5 transition-all"
-                    placeholder="Full Name"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-500 uppercase tracking-widest ml-1">Email Address</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full bg-white border-2 border-slate-100 rounded-2xl px-6 py-4 outline-none focus:border-primary focus:ring-4 focus:ring-primary/5 transition-all"
-                    placeholder="name@email.com"
-                    required
-                  />
-                </div>
+          </div>
+
+          {/* details */}
+          <div className="flex flex-col gap-4">
+            <div className="bg-surface border border-line rounded-lg p-[22px]">
+              <div className="font-mono text-[11px] tracking-[.1em] uppercase text-green-ink mb-3">Our office</div>
+              <div className="text-[14.5px] leading-relaxed text-ink-2">
+                Indian Biologicals<br />
+                No. 14(51), First Floor,<br />
+                Brindhavan Street Extn,<br />
+                West Mambalam, Chennai — 600033<br />
+                Tamil Nadu, India
               </div>
-              
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-slate-500 uppercase tracking-widest ml-1">Phone Number</label>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="w-full bg-white border-2 border-slate-100 rounded-2xl px-6 py-4 outline-none focus:border-primary focus:ring-4 focus:ring-primary/5 transition-all"
-                  placeholder="+91-00000-00000"
-                />
+            </div>
+            <div className="bg-surface border border-line rounded-lg p-[22px]">
+              <div className="font-mono text-[11px] tracking-[.1em] uppercase text-green-ink mb-3">Reach us</div>
+              <div className="flex flex-col gap-2 text-[14.5px] text-ink-2">
+                <span><span className="text-ink-3">Email · </span><a href="mailto:admin@indianbiologicals.com" className="text-green-ink hover:text-green-700">admin@indianbiologicals.com</a></span>
+                <span><span className="text-ink-3">Phone · </span><a href="tel:7373739309" className="text-green-ink hover:text-green-700">73737 39309</a> / <a href="tel:9566997865" className="text-green-ink hover:text-green-700">95669 97865</a></span>
+                <span><span className="text-ink-3">Landline · </span><a href="tel:04435949528" className="text-green-ink hover:text-green-700">044-3594 9528</a></span>
               </div>
-              
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-slate-500 uppercase tracking-widest ml-1">Your Message</label>
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  className="w-full bg-white border-2 border-slate-100 rounded-2xl px-6 py-4 outline-none focus:border-primary focus:ring-4 focus:ring-primary/5 transition-all min-h-[150px] resize-none"
-                  placeholder="How can we help you today?"
-                  required
-                ></textarea>
-              </div>
-              
-              <button 
-                type="submit" 
-                className="w-full bg-primary text-white font-black text-lg py-5 rounded-2xl shadow-xl shadow-primary/20 hover:bg-primary-dark transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-3 group"
-              >
-                Send Message
-                <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-              </button>
-            </form>
+            </div>
+            <div className="aspect-[4/3] border border-line rounded-lg overflow-hidden shadow-sm">
+              <iframe
+                title="Indian Biologicals — West Mambalam, Chennai"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31103.658353016267!2d80.2105136!3d13.0412781!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5266f751928135%3A0x9d47028931eb7a89!2sWest%20Mambalam%2C%20Chennai%2C%20Tamil%20Nadu%20600033!5e0!3m2!1sen!2sin!4v1713358906810!5m2!1sen!2sin"
+                className="w-full h-full border-0 block"
+                loading="lazy"
+              ></iframe>
+            </div>
           </div>
         </div>
       </div>

@@ -1,143 +1,279 @@
 "use client";
-import React from 'react';
-import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { 
-  Calendar, 
-  Users, 
-  FlaskConical, 
-  Stethoscope, 
-  Venus, 
-  Baby, 
-  Leaf,
-  ArrowRight,
-  ShieldCheck
-} from 'lucide-react';
+import Image from 'next/image';
+import { therapeuticAreas, featuredProducts, countByArea, products } from '../../lib/products';
+
+const targets = therapeuticAreas.map((a) => countByArea(a.name));
+const total = products.length;
+const AREA_INTERVAL_MS = 4200;
 
 const Home = () => {
-  const stats = [
-    { icon: Calendar, label: "13+ Years in Service", desc: "Over a decade of dedicated service to healthcare professionals." },
-    { icon: Users, label: "500+ Customers", desc: "Our products reach healthcare facilities across the entire country." },
-    { icon: FlaskConical, label: "35+ Years of Experience", desc: "Backed by decades of combined industry and scientific expertise." },
-    { icon: Stethoscope, label: "Trusted by Doctors", desc: "Healthcare professionals across India rely on our quality products." }
-  ];
+  const [animatedTotal, setAnimatedTotal] = useState(0);
+  const [activeArea, setActiveArea] = useState(0);
+  const [autoplay, setAutoplay] = useState(true);
+  const [reduceMotion, setReduceMotion] = useState(false);
 
-  const categories = [
-    { title: "Women's Health", icon: Venus, desc: "Comprehensive solutions for hormonal balance and wellness." },
-    { icon: Baby, title: "Infertility", desc: "Advanced support for reproductive health and fertility." },
-    { icon: Leaf, title: "Life Sciences", desc: "Innovative bioscience products and research solutions." }
-  ];
+  useEffect(() => {
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    setReduceMotion(reduce);
+    if (reduce) {
+      setAnimatedTotal(total);
+      return;
+    }
+    const steps = 26;
+    let i = 0;
+    const timer = setInterval(() => {
+      i++;
+      const f = Math.min(1, i / steps);
+      const e = 1 - Math.pow(1 - f, 3);
+      setAnimatedTotal(Math.round(total * e));
+      if (f >= 1) clearInterval(timer);
+    }, 34);
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    if (reduceMotion || !autoplay) return;
+    const timer = setTimeout(() => {
+      setActiveArea((i) => (i + 1) % therapeuticAreas.length);
+    }, AREA_INTERVAL_MS);
+    return () => clearTimeout(timer);
+  }, [activeArea, autoplay, reduceMotion]);
+
+  const area = therapeuticAreas[activeArea];
+  const areaProduct = products.find((p) => p.area === area.name);
+
+  const selectArea = (i: number) => {
+    setActiveArea(i);
+    setAutoplay(false);
+  };
 
   return (
-    <div className="bg-white">
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-primary/20 z-10"></div>
-          <Image 
-            src="/doctor-home.svg" 
-            alt="Healthcare Hero" 
-            fill
-            className="object-cover"
-            priority
-          />
+    <div className="bg-paper">
+      {/* HERO */}
+      <section className="max-w-7xl mx-auto px-6 md:px-7 pt-16 pb-10 grid lg:grid-cols-[1.04fr_.96fr] gap-14 items-center">
+        <div>
+          <div className="eyebrow mb-5 animate-fade-in">For healthcare professionals · Women&apos;s health</div>
+          <h1 className="font-semibold text-4xl md:text-[56px] leading-[1.04] tracking-[-0.03em] text-navy mb-5 animate-fade-in">
+            Reproductive health,<br />precisely formulated.
+          </h1>
+          <div className="h-5 mb-3 overflow-hidden">
+            <span
+              key={activeArea}
+              className="font-mono text-[12.5px] tracking-[.02em] text-green-ink inline-block"
+              style={{ animation: 'fadeIn 0.45s ease-out' }}
+            >
+              Now spotlighting · {area.name} — {area.focus}
+            </span>
+          </div>
+          <p className="text-lg md:text-[19px] leading-relaxed text-ink-2 max-w-[48ch] mb-8 animate-fade-in">
+            High-quality medicines in Women&apos;s Health, Infertility and Wellness — a purpose-driven, vertically integrated healthcare organisation trusted by doctors across India.
+          </p>
+          <div className="flex flex-wrap gap-3 mb-8 animate-fade-in">
+            <Link href="/products" className="font-semibold text-base text-white bg-green-600 hover:bg-green-700 rounded-md px-6 py-3 transition-colors shadow-sm">
+              Explore products →
+            </Link>
+            <Link href="/team" className="font-semibold text-base text-green-ink bg-surface hover:bg-green-50 border border-line-strong hover:border-green-300 rounded-md px-6 py-3 transition-colors">
+              Meet the team
+            </Link>
+          </div>
+          <div className="flex gap-7 border-t border-line pt-5 animate-fade-in">
+            <div>
+              <div className="font-grotesk font-bold text-2xl tracking-[-0.02em] text-ink">{animatedTotal}</div>
+              <div className="text-xs text-ink-2">Products</div>
+            </div>
+            <div>
+              <div className="font-grotesk font-bold text-2xl tracking-[-0.02em] text-ink">6</div>
+              <div className="text-xs text-ink-2">Therapeutic areas</div>
+            </div>
+            <div>
+              <div className="font-grotesk font-bold text-2xl tracking-[-0.02em] text-ink">Rx</div>
+              <div className="text-xs text-ink-2">Clinician-led</div>
+            </div>
+          </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-6 relative z-20 pt-20 h-full flex flex-col justify-center">
-          {/* Hero text removed as per user request */}
-        </div>
-      </section>
+        {/* Therapeutic area rotator */}
+        <div
+          className="relative animate-fade-in"
+          onMouseEnter={() => setAutoplay(false)}
+        >
+          <div className="absolute -inset-x-5 -inset-y-8 bg-[radial-gradient(60%_60%_at_70%_30%,rgba(70,168,0,.14),transparent_70%)] blur-sm animate-glow pointer-events-none"></div>
+          <div className="relative bg-gradient-to-br from-surface to-green-50 border border-line rounded-2xl shadow-[var(--e-3)] overflow-hidden min-h-[300px]">
+            <div className="absolute inset-0 grid-texture animate-drift pointer-events-none"></div>
+            <div key={activeArea} className="relative p-6 pb-6" style={{ animation: 'fadeIn 0.5s ease-out' }}>
+              <div className="flex justify-between items-baseline mb-5">
+                <span className="font-mono text-[10.5px] tracking-[.14em] uppercase text-ink-3">
+                  Therapeutic area · 0{activeArea + 1}/0{therapeuticAreas.length}
+                </span>
+                <span className="font-mono text-[10.5px] text-orange-ink">● {targets[activeArea]} SKU</span>
+              </div>
 
-      {/* Stats/About Section */}
-      <section className="py-24 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-primary mb-4">Why Indian Biologicals?</h2>
-            <div className="w-20 h-1.5 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full mb-6"></div>
-            <p className="text-slate-600 max-w-2xl mx-auto text-lg leading-relaxed">
-              We bridge the gap between scientific advancement and clinical application, providing trusted solutions for healthcare providers nationwide.
-            </p>
+              <h3 className="font-semibold text-[28px] tracking-[-0.02em] text-navy mb-2.5">{area.name}</h3>
+              <p className="text-[14.5px] leading-relaxed text-ink-2 mb-5 max-w-[38ch] min-h-[42px]">
+                {area.description}
+              </p>
+
+              {areaProduct && (
+                <Link
+                  href={`/products/${areaProduct.slug}`}
+                  className="flex items-center gap-3 bg-white/70 hover:bg-white border border-line rounded-lg p-3 transition-colors mb-3"
+                >
+                  <div className="w-14 h-14 shrink-0 rounded-md bg-gradient-to-br from-white to-green-50 border border-line flex items-center justify-center p-1.5">
+                    <Image src={areaProduct.image} alt={areaProduct.name} width={56} height={56} className="object-contain w-full h-full" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="font-semibold text-[14px] text-navy truncate">{areaProduct.name}</div>
+                    <div className="font-mono text-[11px] text-ink-3 truncate">{areaProduct.use}</div>
+                  </div>
+                  <span className="ml-auto text-green-ink text-sm shrink-0">→</span>
+                </Link>
+              )}
+
+              <Link
+                href={`/products?area=${encodeURIComponent(area.name)}`}
+                className="inline-block font-semibold text-[13px] text-green-ink hover:underline"
+              >
+                View all {targets[activeArea]} in {area.name} →
+              </Link>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {stats.map((stat, idx) => (
-              <div key={idx} className="p-8 bg-white border border-slate-100 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 group hover:-translate-y-2">
-                <div className="w-16 h-16 bg-slate-50 text-secondary flex items-center justify-center rounded-2xl mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
-                  <stat.icon className="w-8 h-8" />
-                </div>
-                <h3 className="text-xl font-bold text-primary mb-3">{stat.label}</h3>
-                <p className="text-slate-500 leading-relaxed">{stat.desc}</p>
-              </div>
+          {/* area selector / autoplay progress */}
+          <div className="flex gap-2 mt-4">
+            {therapeuticAreas.map((a, i) => (
+              <button
+                key={a.slug}
+                onClick={() => selectArea(i)}
+                aria-label={`Show ${a.name}`}
+                aria-current={i === activeArea}
+                className="flex-1 h-[3px] rounded-full bg-line-strong overflow-hidden cursor-pointer"
+              >
+                <span
+                  className="block h-full bg-green-600 rounded-full"
+                  style={
+                    i === activeArea
+                      ? autoplay && !reduceMotion
+                        ? { animation: `fillBar ${AREA_INTERVAL_MS}ms linear forwards` }
+                        : { width: '100%' }
+                      : { width: '0%' }
+                  }
+                />
+              </button>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Focus Areas Section */}
-      <section className="py-24 bg-slate-50 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col lg:flex-row items-center gap-16">
-            <div className="lg:w-1/2">
-              <h2 className="text-3xl md:text-5xl font-extrabold text-primary mb-6 leading-tight">
-                Specialized Care for Every <span className="text-secondary">Stage of Life</span>
-              </h2>
-              <p className="text-lg text-slate-600 mb-8 leading-relaxed">
-                Our portfolio is carefully curated to address the most pressing needs in modern healthcare, with a primary focus on women&apos;s well-being and reproductive health.
-              </p>
-              <div className="space-y-6">
-                {categories.map((cat, idx) => (
-                  <div key={idx} className="flex gap-4 items-start">
-                    <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md shrink-0 border border-slate-100">
-                      <cat.icon className="w-6 h-6 text-primary" />
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-primary text-lg">{cat.title}</h4>
-                      <p className="text-slate-500">{cat.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+      {/* THERAPEUTIC AREAS */}
+      <section className="max-w-7xl mx-auto px-6 md:px-7 py-16">
+        <div className="font-mono text-xs tracking-[.14em] text-green-ink uppercase mb-3">Therapeutic areas</div>
+        <div className="flex justify-between items-end flex-wrap gap-4 mb-7">
+          <h2 className="font-semibold text-3xl tracking-[-0.02em] text-ink max-w-[22ch] m-0">
+            Focused where women&apos;s health needs it most
+          </h2>
+          <Link href="/products" className="font-semibold text-[14.5px] text-green-ink">View all products →</Link>
+        </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-[18px] gap-y-4">
+          {therapeuticAreas.map((area, i) => (
+            <Link
+              key={area.slug}
+              href={`/products?area=${encodeURIComponent(area.name)}`}
+              className="text-left bg-surface border border-line rounded-lg p-[22px] shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+            >
+              <div className="font-mono text-[11px] text-ink-3 mb-2.5">0{i + 1} · {targets[i]} products</div>
+              <div className="font-semibold text-lg text-navy mb-1.5">{area.name}</div>
+              <div className="text-[13.5px] text-ink-2 leading-relaxed">{area.description}</div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* FEATURED */}
+      <section className="bg-sunk border-y border-line">
+        <div className="max-w-7xl mx-auto px-6 md:px-7 py-14">
+          <div className="flex justify-between items-end flex-wrap gap-4 mb-7">
+            <div>
+              <div className="font-mono text-xs tracking-[.14em] text-green-ink uppercase mb-2.5">Featured</div>
+              <h2 className="font-semibold text-3xl tracking-[-0.02em] text-ink m-0">Frequently prescribed</h2>
             </div>
-            <div className="lg:w-1/2 relative">
-              <div className="absolute -inset-4 bg-primary/5 rounded-full blur-3xl"></div>
-              <Image 
-                src="/IB-logo.svg" 
-                alt="Healthcare Innovation" 
-                width={500} 
-                height={500}
-                className="relative z-10 w-full max-w-md mx-auto grayscale opacity-10 drop-shadow-2xl"
-              />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-20">
-                <div className="bg-white p-8 rounded-3xl shadow-2xl border border-slate-100 max-w-xs">
-                  <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <ShieldCheck className="w-10 h-10 text-primary" />
-                  </div>
-                  <div className="text-4xl font-black text-primary mb-1">100%</div>
-                  <div className="text-slate-500 font-medium">Quality Assurance in every product we deliver</div>
+            <Link href="/products" className="font-semibold text-[14.5px] text-green-ink">See catalog →</Link>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-[18px]">
+            {featuredProducts.map((p) => (
+              <Link
+                key={p.slug}
+                href={`/products/${p.slug}`}
+                className="text-left bg-surface border border-line rounded-lg overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col"
+              >
+                <div className="relative aspect-square bg-gradient-to-br from-white to-green-50 flex items-center justify-center border-b border-line p-4">
+                  <span className="absolute z-10 top-3 left-3 text-[10px] font-semibold text-green-ink bg-green-50 border border-green-100 rounded-full px-2.5 py-1">{p.tag}</span>
+                  <Image
+                    src={p.image}
+                    alt={p.name}
+                    width={200}
+                    height={200}
+                    className="object-contain w-full h-full"
+                    loading="lazy"
+                  />
                 </div>
-              </div>
-            </div>
+                <div className="p-4">
+                  <div className="font-mono text-[10.5px] tracking-[.1em] text-ink-3 uppercase mb-1">{p.use}</div>
+                  <div className="font-semibold text-lg tracking-[-0.01em] text-navy mb-2.5">{p.name}</div>
+                  <span className="text-[13.5px] font-semibold text-green-ink">View details →</span>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24 px-6">
-        <div className="max-w-5xl mx-auto bg-primary rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32"></div>
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/10 rounded-full -ml-32 -mb-32"></div>
-          
-          <div className="relative z-10">
-            <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-8">
-              Ready to partner with a trusted healthcare leader?
-            </h2>
-            <p className="text-lg md:text-xl text-slate-300 mb-12 max-w-2xl mx-auto">
+      {/* SCIENCE SNAPSHOT */}
+      <section className="max-w-7xl mx-auto px-6 md:px-7 py-16 grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <div className="font-mono text-xs tracking-[.14em] text-green-ink uppercase mb-3">Why Indian Biologicals?</div>
+          <h2 className="font-semibold text-[30px] tracking-[-0.02em] text-ink mb-4">Specialised care for every stage of life</h2>
+          <p className="text-[16.5px] leading-relaxed text-ink-2 mb-5">
+            We bridge the gap between scientific advancement and clinical application, providing trusted solutions for healthcare providers nationwide. Our portfolio is curated to address the most pressing needs in modern healthcare, with a primary focus on women&apos;s well-being and reproductive health.
+          </p>
+          <Link href="/about" className="font-semibold text-[15px] text-green-ink bg-surface border border-line-strong hover:bg-green-50 hover:border-green-300 rounded-md px-5 py-2.5 transition-colors">
+            About Indian Biologicals →
+          </Link>
+        </div>
+        <div className="grid grid-cols-2 gap-3.5">
+          <div className="bg-surface border border-line rounded-lg p-5">
+            <div className="font-grotesk font-bold text-[34px] tracking-[-0.03em] text-green-ink leading-none">13+</div>
+            <div className="text-[13px] text-ink-2 mt-1">Years in service</div>
+          </div>
+          <div className="bg-surface border border-line rounded-lg p-5">
+            <div className="font-grotesk font-bold text-[34px] tracking-[-0.03em] text-navy leading-none">500+</div>
+            <div className="text-[13px] text-ink-2 mt-1">Customers nationwide</div>
+          </div>
+          <div className="bg-surface border border-line rounded-lg p-5">
+            <div className="font-grotesk font-bold text-[34px] tracking-[-0.03em] text-orange-ink leading-none">35+</div>
+            <div className="text-[13px] text-ink-2 mt-1">Years of experience</div>
+          </div>
+          <div className="bg-navy rounded-lg p-5">
+            <div className="font-grotesk font-bold text-2xl tracking-[-0.02em] text-white leading-tight">Trusted</div>
+            <div className="text-[13px] text-navy-100 mt-1">by doctors across India</div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA BAND */}
+      <section className="max-w-7xl mx-auto px-6 md:px-7 mb-16">
+        <div className="bg-navy rounded-2xl p-8 md:p-12 flex justify-between items-center gap-8 flex-wrap relative overflow-hidden">
+          <div className="absolute inset-0 grid-texture-dark pointer-events-none"></div>
+          <div className="relative max-w-[46ch]">
+            <h2 className="font-semibold text-[28px] tracking-[-0.02em] text-white mb-2">Ready to partner with a trusted healthcare leader?</h2>
+            <p className="text-[15.5px] text-navy-100 m-0">
               Join 500+ doctors and healthcare facilities that rely on Indian Biologicals for superior medical solutions.
             </p>
-            <Link href="/contact" className="inline-flex px-10 py-5 bg-secondary text-white rounded-full font-black text-xl hover:bg-white hover:text-primary transition-all shadow-xl hover:-translate-y-2 flex items-center gap-3 group mx-auto w-fit">
-              Get in Touch Today
-              <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
+          </div>
+          <div className="relative flex gap-3 flex-wrap">
+            <Link href="/contact" className="font-semibold text-base text-navy bg-white rounded-md px-6 py-3 hover:-translate-y-0.5 transition-transform inline-block">
+              Get in touch today
             </Link>
           </div>
         </div>

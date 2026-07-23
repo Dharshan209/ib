@@ -2,85 +2,68 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { 
-  Facebook, 
-  Twitter, 
-  Linkedin, 
-  Instagram, 
-  Heart 
-} from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
-  const footerLinks = [
-    { title: "Company", links: [
-      { label: "About Us", href: "/about" },
-      { label: "Our Team", href: "/team" },
-      { label: "CSR Initiatives", href: "/csr" },
-      { label: "Gallery", href: "/gallery" },
-    ]},
-    { title: "Products", links: [
-      { label: "Women's Health", href: "/products#womens-health" },
-      { label: "Infertility", href: "/products#infertility" },
-      { label: "Wellness", href: "/products#wellness" },
-    ]},
-    { title: "Support", links: [
-      { label: "Contact Us", href: "/contact" },
-      { label: "Privacy Policy", href: "#" },
-      { label: "Terms of Service", href: "#" },
-    ]}
-  ];
-
   return (
-    <footer className="bg-slate-900 text-slate-300 pt-16 pb-8">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
-          <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center gap-3 mb-6">
-              <Image src="/IB-logo.svg" alt="Logo" width={40} height={40} />
-              <span className="text-white font-bold text-xl tracking-tight">INDIAN BIOLOGICALS</span>
-            </Link>
-            <p className="text-slate-400 mb-8 max-w-sm leading-relaxed">
-              Dedicated to delivering international quality healthcare solutions in Women&apos;s Health, Infertility, and Wellness across India since 2011.
+    <footer className="bg-navy text-navy-100">
+      <div className="max-w-7xl mx-auto px-6 md:px-7 py-12">
+        <div className="grid md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr] gap-7">
+          <div>
+            <div className="flex items-center gap-2.5 mb-3.5">
+              <Image
+                src="/IB-logo.svg"
+                alt="Indian Biologicals"
+                width={40}
+                height={40}
+                className="w-10 h-10 object-contain bg-white rounded-md p-0.5"
+              />
+              <span className="font-semibold text-[14.5px] text-white">Indian Biologicals</span>
+            </div>
+            <p className="text-[13.5px] leading-relaxed text-navy-100 max-w-[36ch] m-0">
+              A curated portfolio addressing the most pressing needs in women&apos;s wellbeing and reproductive health.
             </p>
-            <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary transition-all duration-300 group">
-                <Facebook className="w-5 h-5 group-hover:scale-110 transition-transform" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary transition-all duration-300 group">
-                <Twitter className="w-5 h-5 group-hover:scale-110 transition-transform" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary transition-all duration-300 group">
-                <Linkedin className="w-5 h-5 group-hover:scale-110 transition-transform" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary transition-all duration-300 group">
-                <Instagram className="w-5 h-5 group-hover:scale-110 transition-transform" />
-              </a>
+          </div>
+
+          <div>
+            <div className="font-mono text-[11px] tracking-[.1em] uppercase text-green-300 mb-3">Explore</div>
+            <div className="flex flex-col gap-2 text-[13.5px]">
+              <Link href="/products" className="text-white hover:text-green-300 transition-colors w-fit">Products</Link>
+              <Link href="/about" className="text-white hover:text-green-300 transition-colors w-fit">About</Link>
+              <Link href="/team" className="text-white hover:text-green-300 transition-colors w-fit">Team</Link>
+              <Link href="/csr" className="text-white hover:text-green-300 transition-colors w-fit">CSR</Link>
+              <Link href="/gallery" className="text-white hover:text-green-300 transition-colors w-fit">Gallery</Link>
             </div>
           </div>
 
-          {footerLinks.map((section, idx) => (
-            <div key={idx}>
-              <h4 className="text-white font-bold mb-6 text-lg">{section.title}</h4>
-              <ul className="flex flex-col gap-4">
-                {section.links.map((link, lIdx) => (
-                  <li key={lIdx}>
-                    <Link href={link.href} className="hover:text-primary transition-colors duration-200">
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+          <div>
+            <div className="font-mono text-[11px] tracking-[.1em] uppercase text-green-300 mb-3">Areas</div>
+            <div className="flex flex-col gap-2 text-[13.5px] text-navy-100">
+              <span>Fertility</span>
+              <span>Prenatal</span>
+              <span>PCOS</span>
+              <span>Anaemia</span>
             </div>
-          ))}
+          </div>
+
+          <div>
+            <div className="font-mono text-[11px] tracking-[.1em] uppercase text-green-300 mb-3">Contact</div>
+            <div className="flex flex-col gap-2 text-[13.5px] text-navy-100">
+              <span>West Mambalam, Chennai — 600033</span>
+              <a href="mailto:admin@indianbiologicals.com" className="text-white hover:text-green-300 transition-colors w-fit">admin@indianbiologicals.com</a>
+              <a href="tel:7373739309" className="text-white hover:text-green-300 transition-colors w-fit">73737 39309</a>
+            </div>
+          </div>
         </div>
 
-        <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
-          <p>© {currentYear} Indian Biologicals PVT Ltd. All rights reserved.</p>
-          <div className="flex items-center gap-2">
-            Made with <Heart className="w-4 h-4 text-red-500 fill-red-500" /> in India
-          </div>
+        <div className="border-t border-navy-400 mt-7 pt-[18px] flex flex-wrap justify-between gap-2.5 text-[12.5px] text-navy-100">
+          <span>© {currentYear} Indian Biologicals. For healthcare professionals.</span>
+          <span className="flex gap-[18px]">
+            <a href="#" className="text-navy-100 hover:text-white transition-colors">Privacy</a>
+            <a href="#" className="text-navy-100 hover:text-white transition-colors">Terms</a>
+            <a href="#" className="text-navy-100 hover:text-white transition-colors">Adverse-event reporting</a>
+          </span>
         </div>
       </div>
     </footer>
