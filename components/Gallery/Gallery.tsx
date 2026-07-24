@@ -81,9 +81,9 @@ const Gallery = () => {
           <span className="text-ink-3">/</span>
           <span className="text-ink">Gallery</span>
         </div>
-        <div className="font-mono text-xs tracking-[.14em] text-green-ink uppercase mb-3">Media</div>
-        <h1 className="font-semibold text-4xl md:text-[42px] tracking-[-0.03em] text-navy mb-3">Gallery</h1>
-        <p className="text-[17px] text-ink-2 max-w-[56ch] mb-8">
+        <div className="font-mono text-xs tracking-[.14em] text-green-ink uppercase mb-3 reveal">Media</div>
+        <h1 className="font-semibold text-4xl md:text-[42px] tracking-[-0.03em] text-navy mb-3 reveal" style={{ animationDelay: '60ms' }}>Gallery</h1>
+        <p className="text-[17px] text-ink-2 max-w-[56ch] mb-8 reveal" style={{ animationDelay: '120ms' }}>
           Events, facilities, clinician engagements and product photography. Drop your real images into these placeholder slots.
         </p>
 
@@ -114,7 +114,8 @@ const Gallery = () => {
               <button
                 key={file.id}
                 onClick={() => openModal(file)}
-                className={`group relative rounded-lg overflow-hidden border border-line shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-500 cursor-pointer ${index === 0 ? 'sm:col-span-2 sm:row-span-2' : ''}`}
+                className={`reveal reveal-scale group relative rounded-lg overflow-hidden border border-line shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-500 cursor-pointer ${index === 0 ? 'sm:col-span-2 sm:row-span-2' : ''}`}
+                style={{ animationDelay: `${(index % 6) * 60}ms` }}
               >
                 <Image
                   src={getHighResLink(file.id)}

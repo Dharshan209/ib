@@ -14,7 +14,7 @@ const AboutUs = () => {
           <span className="text-ink">About</span>
         </div>
         <div className="grid lg:grid-cols-[1.15fr_.85fr] gap-12 items-center">
-          <div>
+          <div className="reveal reveal-left">
             <div className="font-mono text-xs tracking-[.14em] text-green-ink uppercase mb-3.5">About Indian Biologicals</div>
             <h1 className="font-semibold text-4xl md:text-[46px] leading-[1.06] tracking-[-0.03em] text-navy mb-5">
               A purpose-driven healthcare organisation
@@ -26,7 +26,7 @@ const AboutUs = () => {
               We are associated with Altoven, a leading emerging manufacturing plant with over 35 years of pharmaceutical expertise in APIs, biosimilars, branded generics and more.
             </p>
           </div>
-          <div className="relative bg-gradient-to-br from-surface to-green-50 border border-line rounded-2xl shadow-[var(--e-2)] p-6 overflow-hidden">
+          <div className="reveal reveal-right relative bg-gradient-to-br from-surface to-green-50 border border-line rounded-2xl shadow-[var(--e-2)] p-6 overflow-hidden" style={{ animationDelay: '120ms' }}>
             <div className="absolute inset-0 grid-texture pointer-events-none"></div>
             <div className="relative flex flex-col gap-3.5">
               <div className="flex justify-between items-baseline">
@@ -51,13 +51,13 @@ const AboutUs = () => {
       {/* mission & vision */}
       <section className="bg-sunk border-y border-line">
         <div className="max-w-7xl mx-auto px-6 md:px-7 py-14 grid md:grid-cols-2 gap-[22px]">
-          <div className="bg-surface border border-line rounded-xl p-8">
+          <div className="reveal reveal-left bg-surface border border-line rounded-xl p-8">
             <div className="font-mono text-xs tracking-[.14em] text-green-ink uppercase mb-3.5">Our mission</div>
             <p className="text-lg leading-relaxed text-ink m-0">
               To improve the lives and health of all women &amp; couples to achieve their dreams of parenthood by offering high-quality products through healthcare professionals — from conventional therapy to state-of-the-art technologies.
             </p>
           </div>
-          <div className="bg-navy rounded-xl p-8 relative overflow-hidden">
+          <div className="reveal reveal-right bg-navy rounded-xl p-8 relative overflow-hidden" style={{ animationDelay: '120ms' }}>
             <div className="absolute inset-0 grid-texture-dark pointer-events-none"></div>
             <div className="relative">
               <div className="font-mono text-xs tracking-[.14em] text-green-300 uppercase mb-3.5">Our vision</div>
@@ -76,14 +76,14 @@ const AboutUs = () => {
 
       {/* focus areas */}
       <section className="max-w-7xl mx-auto px-6 md:px-7 pb-14">
-        <div className="bg-navy rounded-2xl p-8 md:p-11 relative overflow-hidden">
+        <div className="reveal reveal-scale bg-navy rounded-2xl p-8 md:p-11 relative overflow-hidden">
           <div className="absolute inset-0 grid-texture-dark pointer-events-none"></div>
           <div className="relative">
             <div className="font-mono text-xs tracking-[.14em] text-green-300 uppercase mb-3">Where we focus</div>
             <h2 className="font-semibold text-[28px] tracking-[-0.02em] text-white mb-6">Six areas of women&apos;s health</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-              {therapeuticAreas.map((area) => (
-                <div key={area.slug} className="bg-white/[.06] border border-white/[.14] rounded-md p-4">
+              {therapeuticAreas.map((area, i) => (
+                <div key={area.slug} className="reveal bg-white/[.06] border border-white/[.14] rounded-md p-4 hover:bg-white/[.1] transition-colors duration-300" style={{ animationDelay: `${(i % 3) * 70}ms` }}>
                   <div className="font-semibold text-base text-white mb-1">{area.name}</div>
                   <div className="text-[13px] text-navy-100">{area.focus}</div>
                 </div>
@@ -93,7 +93,7 @@ const AboutUs = () => {
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-6 md:px-7 pb-16 text-center">
+      <section className="reveal max-w-7xl mx-auto px-6 md:px-7 pb-16 text-center">
         <h2 className="font-semibold text-[28px] tracking-[-0.02em] text-ink mb-2.5">Work with our medical affairs team</h2>
         <p className="text-base text-ink-2 max-w-[52ch] mx-auto mb-6">
           Product information, prescriber support and distribution partnerships.

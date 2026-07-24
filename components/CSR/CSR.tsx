@@ -83,11 +83,11 @@ const CSR = () => {
           <span className="text-ink">CSR</span>
         </div>
         <div className="max-w-[64ch] mb-2">
-          <div className="eyebrow mb-5">Social impact</div>
-          <h1 className="font-semibold text-4xl md:text-[44px] leading-[1.06] tracking-[-0.03em] text-navy mb-5 max-w-[18ch]">
+          <div className="eyebrow mb-5 reveal">Social impact</div>
+          <h1 className="font-semibold text-4xl md:text-[44px] leading-[1.06] tracking-[-0.03em] text-navy mb-5 max-w-[18ch] reveal" style={{ animationDelay: '60ms' }}>
             Our commitment to community
           </h1>
-          <p className="text-xl leading-relaxed text-ink-2 m-0">
+          <p className="text-xl leading-relaxed text-ink-2 m-0 reveal" style={{ animationDelay: '120ms' }}>
             &ldquo;At Indian Biologicals, true excellence goes beyond success — it is reflected in the lives we touch and the lasting positive impact we create in society.&rdquo;
           </p>
         </div>
@@ -123,7 +123,8 @@ const CSR = () => {
               <button
                 key={file.id}
                 onClick={() => openModal(file)}
-                className={`group relative rounded-lg overflow-hidden cursor-pointer border border-line shadow-sm hover:shadow-lg transition-all duration-500 ${index === 0 ? 'sm:col-span-2 sm:row-span-2' : ''}`}
+                className={`reveal reveal-scale group relative rounded-lg overflow-hidden cursor-pointer border border-line shadow-sm hover:shadow-lg transition-all duration-500 ${index === 0 ? 'sm:col-span-2 sm:row-span-2' : ''}`}
+                style={{ animationDelay: `${(index % 6) * 60}ms` }}
               >
                 <Image
                   src={getHighResLink(file.id)}

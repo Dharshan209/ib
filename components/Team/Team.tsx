@@ -1,7 +1,8 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
-import { Quote, Linkedin, X, ExternalLink } from 'lucide-react';
+import { Linkedin, X, Mail } from 'lucide-react';
 
 interface TeamMember {
   name: string;
@@ -16,7 +17,7 @@ const teamMembers: TeamMember[] = [
   {
     name: 'K.P. Mohan',
     role: 'Founder',
-    image: '/Team/mohan.svg',
+    image: '/Team/mohan.webp',
     bio: 'A visionary leader with decades of experience in wellness innovation and entrepreneurship. Mr. Mohan has been instrumental in shaping the strategic direction of Indian Biologicals, focusing on bringing international quality diagnostics to the Indian market.',
     linkedin: '#',
     expertise: ['Strategic Leadership', 'Business Innovation', 'Healthcare Entrepreneurship']
@@ -24,7 +25,7 @@ const teamMembers: TeamMember[] = [
   {
     name: 'M. Periaiah',
     role: 'Founder',
-    image: '/Team/Periaiah.svg',
+    image: '/Team/Periaiah.webp',
     bio: 'Co-founder with strong strategic foresight and commitment to health solutions. With a deep understanding of the healthcare ecosystem, Mr. Periaiah has driven the organization towards excellence in product development and market expansion.',
     linkedin: '#',
     expertise: ['Strategy', 'Project Management', 'Market Research']
@@ -32,7 +33,7 @@ const teamMembers: TeamMember[] = [
   {
     name: 'Ganesan P. M',
     role: 'Business Development Director',
-    image: '/Team/ganesan.svg',
+    image: '/Team/ganesan.webp',
     bio: 'His innovations have consistently built trusted brands in Indian Biologicals. He has a passion for building powerful brands from scratch and possesses an innate ability to identify market gaps in Women\'s Health.',
     linkedin: '#',
     expertise: ['Brand Building', 'Market Strategy', 'Strategic Partnerships']
@@ -40,7 +41,7 @@ const teamMembers: TeamMember[] = [
   {
     name: 'Dr. S. Prabakaran MD',
     role: 'Chief Scientific Advisor',
-    image: '/Team/prabakaran.svg',
+    image: '/Team/prabakaran.webp',
     bio: 'He is a Medical Graduate. He did his Post Graduation in Transfusion Medicine from PGI Chandigarh. Dr. Prabakaran ensures that all our products meet the highest scientific standards and clinical relevance.',
     linkedin: '#',
     expertise: ['Transfusion Medicine', 'Clinical Research', 'Scientific Excellence']
@@ -48,7 +49,7 @@ const teamMembers: TeamMember[] = [
   {
     name: 'N. Ilangovan',
     role: 'Head – Plant Operations',
-    image: '/Team/ilangovan.svg',
+    image: '/Team/ilangovan.webp',
     bio: 'A multi-skilled Industrial expert and Lead with over 30 years of experience across INDIA with various therapy areas on Pharmaceutical manufacturing, Validation, GMP & Regulatory affairs.',
     linkedin: '#',
     expertise: ['Manufacturing', 'GMP Compliance', 'Operational Excellence']
@@ -56,7 +57,7 @@ const teamMembers: TeamMember[] = [
   {
     name: 'Mrs. Arul Priya',
     role: 'Finance & HR Manager',
-    image: '/Team/arulpriya.svg',
+    image: '/Team/arulpriya.webp',
     bio: 'She has more than 18 years of successful managerial experience in various companies with different working cultures. She manages the core organizational assets with a focus on sustainable growth and people development.',
     linkedin: '#',
     expertise: ['Financial Management', 'HR Strategy', 'Organizational Growth']
@@ -64,15 +65,15 @@ const teamMembers: TeamMember[] = [
   {
     name: 'T Venkatachalam',
     role: 'Product Development Manager',
-    image: '/Team/Venkatachalan.svg',
+    image: '/Team/Venkatachalan.webp',
     bio: 'T Venkatachalam is a well-regarded leader in the life sciences field, and he\'s currently the Product Development Manager at Indian Biologicals Private Limited. He excelled academically, being the District Topper in school and earning a University Gold Medal in his MSc in Chemistry. This mix of scholarly achievements and real-world experience enables him to tackle product innovation with a unique blend of mathematical skill and scientific knowledge. At Indian Biologicals, he leads the charge in turning complicated biological ideas into healthcare solutions that are ready for the market, keeping the company at the leading edge of the industry.',
     linkedin: '#',
-  expertise: ['Product Innovation', 'Chemistry', 'Healthcare Solutions', 'Scientific Knowledge']
+    expertise: ['Product Innovation', 'Chemistry', 'Healthcare Solutions', 'Scientific Knowledge']
   },
   {
     name: 'Mrs. Yuvashree. N',
     role: 'Product Trainer',
-    image: '/Team/yuvashri.svg',
+    image: '/Team/yuvashri.webp',
     bio: 'Mrs. Yuvashree is a Product Trainer with proven expertise in product science, pharmacology, and clinical applications. She is a Bachelor of Pharmacy graduate and a Gold Medalist, demonstrating outstanding academic achievement and a strong foundation in pharmaceutical sciences. She specializes in delivering clear, structured, and evidence-based training on mechanism of action, clinical benefits, and safety profiles, enabling teams to communicate product information with confidence, accuracy, and regulatory compliance.',
     linkedin: '#',
     expertise: ['Product Science', 'Pharmacology', 'Clinical Applications', 'Regulatory Compliance']
@@ -80,23 +81,18 @@ const teamMembers: TeamMember[] = [
   {
     name: 'Dharshan Senthil',
     role: 'Chief Technical Officer',
-    image: '/Team/Dharshan.svg',
+    image: '/Team/Dharshan.webp',
     bio: 'An innovative and strategic technical professional with strong expertise in report management, data analysis, and high-impact digital presentation development. As Technical Head, he plays a vital role in ensuring accurate reporting, data integrity, and effective technical communication, thereby supporting informed management decisions and organizational excellence through structured execution and digital precision.',
     linkedin: '#',
     expertise: ['Report Management', 'Data Analysis', 'Digital Presentation']
   },
 ];
 
+const founders = teamMembers.filter((m) => m.role === 'Founder');
+const leadership = teamMembers.filter((m) => m.role !== 'Founder');
+
 const Team = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
-
-  console.log("Rendering Team Members:", teamMembers.length, teamMembers.map(m => m.name));
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 800);
-    return () => clearTimeout(timer);
-  }, []);
 
   const openModal = (member: TeamMember) => {
     setSelectedMember(member);
@@ -109,162 +105,166 @@ const Team = () => {
   };
 
   return (
-    <div className="pt-32 pb-24 bg-white min-h-screen relative">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-20 animate-fade-in">
-          <h1 className="text-4xl md:text-5xl font-black text-primary mb-4 flex items-center justify-center gap-4">
-            Our Leadership Team
-            <span className="inline-flex items-center justify-center px-4 py-1 text-2xl font-black bg-primary/5 text-primary/40 rounded-2xl border border-primary/10">
-              {teamMembers.length}
-            </span>
-          </h1>
-          <div className="w-24 h-2 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full mb-6"></div>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            Leading with purpose, innovation, and scientific excellence to transform Indian healthcare.
-          </p>
+    <div className="pt-10 pb-20 px-6 md:px-7 bg-paper min-h-screen">
+      <div className="max-w-7xl mx-auto">
+        {/* breadcrumb */}
+        <div className="flex gap-2 items-center text-[13px] text-ink-2 mb-6">
+          <Link href="/" className="text-green-ink">Home</Link>
+          <span className="text-ink-3">/</span>
+          <span className="text-ink">Team</span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {isLoading ? (
-            Array.from({ length: 6 }).map((_, index) => (
-              <div key={index} className="bg-slate-50 rounded-[2.5rem] p-8 h-80 shimmer"></div>
-            ))
-          ) : (
-            teamMembers.map((member, index) => (
-              <div 
-                key={index} 
-                onClick={() => openModal(member)}
-                className="group bg-white rounded-[2.5rem] p-8 border border-slate-100 hover:border-primary/20 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,51,102,0.1)] hover:-translate-y-2 flex flex-col cursor-pointer relative overflow-hidden animate-slide-up"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                {/* Decorative background element */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/2 rounded-bl-[100px] transform translate-x-10 -translate-y-10 group-hover:translate-x-5 group-hover:-translate-y-5 transition-transform duration-500"></div>
+        {/* intro */}
+        <div className="font-mono text-xs tracking-[.14em] text-green-ink uppercase mb-3 reveal">Our people</div>
+        <h1 className="font-semibold text-4xl md:text-[46px] leading-[1.06] tracking-[-0.03em] text-navy mb-4 max-w-[18ch] reveal" style={{ animationDelay: '60ms' }}>
+          The people behind Indian Biologicals
+        </h1>
+        <p className="text-[17px] leading-relaxed text-ink-2 max-w-[58ch] mb-7 reveal" style={{ animationDelay: '120ms' }}>
+          A leadership team spanning science, manufacturing, commercial and technology — leading with purpose to advance women&apos;s health across India.
+        </p>
+        <div className="flex gap-7 border-t border-line pt-5 mb-14 reveal" style={{ animationDelay: '180ms' }}>
+          <div>
+            <div className="font-grotesk font-bold text-2xl tracking-[-0.02em] text-ink">{teamMembers.length}</div>
+            <div className="text-xs text-ink-2">Team members</div>
+          </div>
+          <div>
+            <div className="font-grotesk font-bold text-2xl tracking-[-0.02em] text-ink">{founders.length}</div>
+            <div className="text-xs text-ink-2">Founders</div>
+          </div>
+          <div>
+            <div className="font-grotesk font-bold text-2xl tracking-[-0.02em] text-ink">35+</div>
+            <div className="text-xs text-ink-2">Years combined expertise</div>
+          </div>
+        </div>
 
-                <div className="flex items-center gap-6 mb-8 relative z-10">
-                  <div className="relative w-24 h-24 rounded-2xl overflow-hidden bg-slate-50 shadow-sm border-2 border-white transition-all duration-500 group-hover:scale-105">
-                    <Image 
-                      src={member.image} 
-                      alt={member.name} 
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-black text-primary transition-colors duration-300">
-                      {member.name}
-                    </h3>
-                    <p className="text-secondary font-bold text-sm tracking-widest uppercase mb-2">
-                      {member.role}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="relative flex-1 z-10">
-                  <Quote className="absolute -left-2 -top-2 w-8 h-8 text-primary/5 transition-colors" />
-                  <p className="text-slate-600 leading-relaxed text-sm relative z-10 pl-2 line-clamp-3 italic">
-                    {member.bio}
-                  </p>
-                </div>
-
-                <div className="mt-8 flex items-center justify-between border-t border-slate-50 pt-6 relative z-10">
-                  <span className="text-primary font-bold text-xs uppercase tracking-tighter group-hover:text-secondary transition-colors">
-                    View Full Profile
-                  </span>
-                  <div className="flex gap-3">
-                    <a 
-                      href={member.linkedin} 
-                      onClick={(e) => e.stopPropagation()}
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400 hover:bg-primary hover:text-white transition-all duration-300"
-                    >
-                      <Linkedin className="w-5 h-5" />
-                    </a>
-                  </div>
-                </div>
+        {/* founders */}
+        <div className="font-mono text-xs tracking-[.14em] text-green-ink uppercase mb-4 reveal">Founders</div>
+        <div className="grid md:grid-cols-2 gap-[18px] mb-16">
+          {founders.map((member, i) => (
+            <button
+              key={member.name}
+              onClick={() => openModal(member)}
+              className="reveal group relative text-left grid grid-cols-[auto_1fr] gap-5 items-center bg-gradient-to-br from-surface to-green-50 border border-line rounded-2xl shadow-[var(--e-2)] p-6 overflow-hidden hover:shadow-[var(--e-3)] hover:-translate-y-1 transition-all duration-300"
+              style={{ animationDelay: `${i * 90}ms` }}
+            >
+              <div className="absolute inset-0 grid-texture pointer-events-none"></div>
+              <div className="relative w-28 h-28 md:w-32 md:h-32 shrink-0 rounded-xl overflow-hidden bg-surface border border-line shadow-sm">
+                <Image
+                  src={member.image}
+                  alt={member.name}
+                  fill
+                  sizes="128px"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
               </div>
-            ))
-          )}
+              <div className="relative min-w-0">
+                <span className="eyebrow mb-2.5">Founder</span>
+                <h3 className="font-semibold text-[22px] tracking-[-0.02em] text-navy mb-2">{member.name}</h3>
+                <p className="text-[14px] leading-relaxed text-ink-2 line-clamp-3 mb-3">{member.bio}</p>
+                <span className="text-[13px] font-semibold text-green-ink group-hover:underline">View profile →</span>
+              </div>
+            </button>
+          ))}
+        </div>
+
+        {/* leadership grid */}
+        <div className="flex justify-between items-end flex-wrap gap-4 mb-6 reveal">
+          <div>
+            <div className="font-mono text-xs tracking-[.14em] text-green-ink uppercase mb-2.5">Leadership &amp; specialists</div>
+            <h2 className="font-semibold text-3xl tracking-[-0.02em] text-ink m-0">Driving every function</h2>
+          </div>
+        </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-[18px]">
+          {leadership.map((member, i) => (
+            <button
+              key={member.name}
+              onClick={() => openModal(member)}
+              className="reveal reveal-scale group text-left bg-surface border border-line rounded-lg overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col"
+              style={{ animationDelay: `${(i % 3) * 80}ms` }}
+            >
+              <div className="relative aspect-[4/3] bg-gradient-to-br from-white to-green-50 border-b border-line overflow-hidden">
+                <Image
+                  src={member.image}
+                  alt={member.name}
+                  fill
+                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+              <div className="p-4 flex flex-col flex-1">
+                <div className="font-semibold text-[17px] tracking-[-0.01em] text-navy">{member.name}</div>
+                <div className="font-mono text-[10.5px] tracking-[.1em] text-ink-3 uppercase mt-1">{member.role}</div>
+                <div className="flex flex-wrap gap-1.5 mt-3">
+                  {member.expertise.slice(0, 2).map((exp) => (
+                    <span key={exp} className="text-[10.5px] font-semibold text-green-ink bg-green-50 border border-green-100 rounded-full px-2.5 py-1">
+                      {exp}
+                    </span>
+                  ))}
+                </div>
+                <span className="mt-4 text-[13px] font-semibold text-green-ink group-hover:underline">View profile →</span>
+              </div>
+            </button>
+          ))}
         </div>
       </div>
 
       {/* Profile Modal */}
       {selectedMember && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-10 animate-fade-in">
-          <div 
-            className="absolute inset-0 bg-primary/40 backdrop-blur-md"
-            onClick={closeModal}
-          ></div>
-          
-          <div className="bg-white w-full max-w-4xl rounded-[3rem] shadow-2xl relative z-[110] overflow-hidden flex flex-col md:flex-row animate-scale-up">
-            <button 
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8">
+          <div className="absolute inset-0 bg-navy/70 backdrop-blur-md animate-fade-in" onClick={closeModal}></div>
+
+          <div className="relative z-[110] bg-surface w-full max-w-3xl rounded-2xl shadow-[var(--e-4)] overflow-hidden flex flex-col md:flex-row max-h-[88vh] animate-scale-up">
+            <button
               onClick={closeModal}
-              className="absolute top-6 right-6 w-12 h-12 bg-slate-100 hover:bg-primary hover:text-white rounded-2xl flex items-center justify-center transition-all z-20 group"
+              className="absolute top-4 right-4 w-9 h-9 rounded-full bg-surface border border-line-strong flex items-center justify-center text-ink hover:bg-sunk transition-colors z-20"
+              aria-label="Close"
             >
-              <X className="w-6 h-6 group-hover:rotate-90 transition-transform" />
+              <X className="w-5 h-5" />
             </button>
 
-            <div className="md:w-2/5 relative h-80 md:h-auto bg-slate-50">
-              <Image 
-                src={selectedMember.image} 
-                alt={selectedMember.name} 
+            <div className="md:w-2/5 relative h-64 md:h-auto bg-gradient-to-br from-white to-green-50 border-b md:border-b-0 md:border-r border-line shrink-0">
+              <Image
+                src={selectedMember.image}
+                alt={selectedMember.name}
                 fill
+                sizes="(min-width: 768px) 320px, 100vw"
                 className="object-cover"
               />
-              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/20 to-transparent md:hidden"></div>
             </div>
 
-            <div className="md:w-3/5 p-10 md:p-16 flex flex-col justify-center">
-              <div className="mb-8">
-                <span className="inline-block px-4 py-1 bg-secondary/10 text-secondary text-xs font-black uppercase tracking-widest rounded-full mb-4">
-                  Team Member
-                </span>
-                <h2 className="text-4xl font-black text-primary mb-2">{selectedMember.name}</h2>
-                <p className="text-xl font-bold text-slate-500 uppercase tracking-widest scale-y-90 origin-left">{selectedMember.role}</p>
+            <div className="md:w-3/5 p-7 md:p-9 overflow-y-auto">
+              <span className="eyebrow mb-3">{selectedMember.role === 'Founder' ? 'Founder' : 'Team member'}</span>
+              <h2 className="font-semibold text-[28px] tracking-[-0.025em] text-navy mb-1">{selectedMember.name}</h2>
+              <p className="font-mono text-[11px] tracking-[.12em] text-ink-3 uppercase mb-6">{selectedMember.role}</p>
+
+              <div className="font-mono text-[11px] tracking-[.1em] uppercase text-green-ink mb-2.5">Biography</div>
+              <p className="text-[15px] leading-relaxed text-ink-2 mb-6">{selectedMember.bio}</p>
+
+              <div className="font-mono text-[11px] tracking-[.1em] uppercase text-green-ink mb-3">Core expertise</div>
+              <div className="flex flex-wrap gap-2 mb-8">
+                {selectedMember.expertise.map((exp) => (
+                  <span key={exp} className="text-[12px] font-semibold text-ink-2 bg-sunk border border-line rounded-full px-3 py-1.5">
+                    {exp}
+                  </span>
+                ))}
               </div>
 
-              <div className="space-y-6 flex-1">
-                <div>
-                  <h4 className="text-xs font-black text-primary uppercase tracking-widest mb-4 opacity-50 flex items-center gap-2">
-                    Professional Biography
-                    <div className="h-px bg-primary/10 flex-1"></div>
-                  </h4>
-                  <p className="text-slate-600 leading-relaxed text-lg italic">
-                    {selectedMember.bio}
-                  </p>
-                </div>
-
-                <div>
-                  <h4 className="text-xs font-black text-primary uppercase tracking-widest mb-4 opacity-50 flex items-center gap-2">
-                    Core Expertise
-                    <div className="h-px bg-primary/10 flex-1"></div>
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedMember.expertise.map((exp, i) => (
-                      <span key={i} className="px-5 py-2 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-primary/70">
-                        {exp}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-12 flex flex-wrap gap-4">
-                <a 
+              <div className="flex gap-3 flex-wrap">
+                <a
                   href={selectedMember.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 bg-primary text-white font-black py-4 px-8 rounded-2xl shadow-xl shadow-primary/20 hover:bg-slate-900 transition-all flex items-center justify-center gap-3 active:scale-95"
+                  className="inline-flex items-center gap-2 font-semibold text-[14px] text-white bg-green-600 hover:bg-green-700 rounded-md px-5 py-2.5 transition-colors"
                 >
-                  <Linkedin className="w-6 h-6" />
-                  Connect on LinkedIn
+                  <Linkedin className="w-4 h-4" /> Connect on LinkedIn
                 </a>
-                <button 
-                  onClick={() => window.location.href = 'mailto:admin@indianbiologicals.com'}
-                  className="w-16 h-16 border-2 border-primary/10 text-primary rounded-2xl flex items-center justify-center hover:bg-primary/5 transition-all"
+                <a
+                  href="mailto:admin@indianbiologicals.com"
+                  className="inline-flex items-center gap-2 font-semibold text-[14px] text-green-ink bg-surface border border-line-strong hover:bg-green-50 hover:border-green-300 rounded-md px-5 py-2.5 transition-colors"
                 >
-                  <ExternalLink className="w-6 h-6" />
-                </button>
+                  <Mail className="w-4 h-4" /> Email
+                </a>
               </div>
             </div>
           </div>

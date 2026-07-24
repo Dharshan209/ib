@@ -54,8 +54,8 @@ const Home = () => {
       {/* HERO */}
       <section className="max-w-7xl mx-auto px-6 md:px-7 pt-16 pb-10 grid lg:grid-cols-[1.04fr_.96fr] gap-14 items-center">
         <div>
-          <div className="eyebrow mb-5 animate-fade-in">For healthcare professionals · Women&apos;s health</div>
-          <h1 className="font-semibold text-4xl md:text-[56px] leading-[1.04] tracking-[-0.03em] text-navy mb-5 animate-fade-in">
+          <div className="eyebrow mb-5 animate-fade-in" style={{ animationDelay: '0.05s' }}>For healthcare professionals · Women&apos;s health</div>
+          <h1 className="font-semibold text-4xl md:text-[56px] leading-[1.04] tracking-[-0.03em] text-navy mb-5 animate-fade-in" style={{ animationDelay: '0.12s' }}>
             Reproductive health,<br />precisely formulated.
           </h1>
           <div className="h-5 mb-3 overflow-hidden">
@@ -67,18 +67,18 @@ const Home = () => {
               Now spotlighting · {area.name} — {area.focus}
             </span>
           </div>
-          <p className="text-lg md:text-[19px] leading-relaxed text-ink-2 max-w-[48ch] mb-8 animate-fade-in">
+          <p className="text-lg md:text-[19px] leading-relaxed text-ink-2 max-w-[48ch] mb-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
             High-quality medicines in Women&apos;s Health, Infertility and Wellness — a purpose-driven, vertically integrated healthcare organisation trusted by doctors across India.
           </p>
-          <div className="flex flex-wrap gap-3 mb-8 animate-fade-in">
-            <Link href="/products" className="font-semibold text-base text-white bg-green-600 hover:bg-green-700 rounded-md px-6 py-3 transition-colors shadow-sm">
+          <div className="flex flex-wrap gap-3 mb-8 animate-fade-in" style={{ animationDelay: '0.28s' }}>
+            <Link href="/products" className="font-semibold text-base text-white bg-green-600 hover:bg-green-700 rounded-md px-6 py-3 transition-all shadow-sm hover:-translate-y-0.5 hover:shadow-md active:scale-95">
               Explore products →
             </Link>
-            <Link href="/team" className="font-semibold text-base text-green-ink bg-surface hover:bg-green-50 border border-line-strong hover:border-green-300 rounded-md px-6 py-3 transition-colors">
+            <Link href="/team" className="font-semibold text-base text-green-ink bg-surface hover:bg-green-50 border border-line-strong hover:border-green-300 rounded-md px-6 py-3 transition-all hover:-translate-y-0.5 active:scale-95">
               Meet the team
             </Link>
           </div>
-          <div className="flex gap-7 border-t border-line pt-5 animate-fade-in">
+          <div className="flex gap-7 border-t border-line pt-5 animate-fade-in" style={{ animationDelay: '0.36s' }}>
             <div>
               <div className="font-grotesk font-bold text-2xl tracking-[-0.02em] text-ink">{animatedTotal}</div>
               <div className="text-xs text-ink-2">Products</div>
@@ -97,6 +97,7 @@ const Home = () => {
         {/* Therapeutic area rotator */}
         <div
           className="relative animate-fade-in"
+          style={{ animationDelay: '0.24s' }}
           onMouseEnter={() => setAutoplay(false)}
         >
           <div className="absolute -inset-x-5 -inset-y-8 bg-[radial-gradient(60%_60%_at_70%_30%,rgba(70,168,0,.14),transparent_70%)] blur-sm animate-glow pointer-events-none"></div>
@@ -168,8 +169,8 @@ const Home = () => {
 
       {/* THERAPEUTIC AREAS */}
       <section className="max-w-7xl mx-auto px-6 md:px-7 py-16">
-        <div className="font-mono text-xs tracking-[.14em] text-green-ink uppercase mb-3">Therapeutic areas</div>
-        <div className="flex justify-between items-end flex-wrap gap-4 mb-7">
+        <div className="font-mono text-xs tracking-[.14em] text-green-ink uppercase mb-3 reveal">Therapeutic areas</div>
+        <div className="flex justify-between items-end flex-wrap gap-4 mb-7 reveal">
           <h2 className="font-semibold text-3xl tracking-[-0.02em] text-ink max-w-[22ch] m-0">
             Focused where women&apos;s health needs it most
           </h2>
@@ -180,7 +181,8 @@ const Home = () => {
             <Link
               key={area.slug}
               href={`/products?area=${encodeURIComponent(area.name)}`}
-              className="text-left bg-surface border border-line rounded-lg p-[22px] shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+              className="reveal text-left bg-surface border border-line rounded-lg p-[22px] shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+              style={{ animationDelay: `${(i % 3) * 80}ms` }}
             >
               <div className="font-mono text-[11px] text-ink-3 mb-2.5">0{i + 1} · {targets[i]} products</div>
               <div className="font-semibold text-lg text-navy mb-1.5">{area.name}</div>
@@ -193,7 +195,7 @@ const Home = () => {
       {/* FEATURED */}
       <section className="bg-sunk border-y border-line">
         <div className="max-w-7xl mx-auto px-6 md:px-7 py-14">
-          <div className="flex justify-between items-end flex-wrap gap-4 mb-7">
+          <div className="flex justify-between items-end flex-wrap gap-4 mb-7 reveal">
             <div>
               <div className="font-mono text-xs tracking-[.14em] text-green-ink uppercase mb-2.5">Featured</div>
               <h2 className="font-semibold text-3xl tracking-[-0.02em] text-ink m-0">Frequently prescribed</h2>
@@ -201,11 +203,12 @@ const Home = () => {
             <Link href="/products" className="font-semibold text-[14.5px] text-green-ink">See catalog →</Link>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-[18px]">
-            {featuredProducts.map((p) => (
+            {featuredProducts.map((p, i) => (
               <Link
                 key={p.slug}
                 href={`/products/${p.slug}`}
-                className="text-left bg-surface border border-line rounded-lg overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col"
+                className="reveal reveal-scale text-left bg-surface border border-line rounded-lg overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col"
+                style={{ animationDelay: `${(i % 4) * 80}ms` }}
               >
                 <div className="relative aspect-square bg-gradient-to-br from-white to-green-50 flex items-center justify-center border-b border-line p-4">
                   <span className="absolute z-10 top-3 left-3 text-[10px] font-semibold text-green-ink bg-green-50 border border-green-100 rounded-full px-2.5 py-1">{p.tag}</span>
@@ -231,7 +234,7 @@ const Home = () => {
 
       {/* SCIENCE SNAPSHOT */}
       <section className="max-w-7xl mx-auto px-6 md:px-7 py-16 grid md:grid-cols-2 gap-12 items-center">
-        <div>
+        <div className="reveal reveal-left">
           <div className="font-mono text-xs tracking-[.14em] text-green-ink uppercase mb-3">Why Indian Biologicals?</div>
           <h2 className="font-semibold text-[30px] tracking-[-0.02em] text-ink mb-4">Specialised care for every stage of life</h2>
           <p className="text-[16.5px] leading-relaxed text-ink-2 mb-5">
@@ -242,19 +245,19 @@ const Home = () => {
           </Link>
         </div>
         <div className="grid grid-cols-2 gap-3.5">
-          <div className="bg-surface border border-line rounded-lg p-5">
+          <div className="reveal reveal-scale bg-surface border border-line rounded-lg p-5" style={{ animationDelay: '0ms' }}>
             <div className="font-grotesk font-bold text-[34px] tracking-[-0.03em] text-green-ink leading-none">13+</div>
             <div className="text-[13px] text-ink-2 mt-1">Years in service</div>
           </div>
-          <div className="bg-surface border border-line rounded-lg p-5">
+          <div className="reveal reveal-scale bg-surface border border-line rounded-lg p-5" style={{ animationDelay: '80ms' }}>
             <div className="font-grotesk font-bold text-[34px] tracking-[-0.03em] text-navy leading-none">500+</div>
             <div className="text-[13px] text-ink-2 mt-1">Customers nationwide</div>
           </div>
-          <div className="bg-surface border border-line rounded-lg p-5">
+          <div className="reveal reveal-scale bg-surface border border-line rounded-lg p-5" style={{ animationDelay: '160ms' }}>
             <div className="font-grotesk font-bold text-[34px] tracking-[-0.03em] text-orange-ink leading-none">35+</div>
             <div className="text-[13px] text-ink-2 mt-1">Years of experience</div>
           </div>
-          <div className="bg-navy rounded-lg p-5">
+          <div className="reveal reveal-scale bg-navy rounded-lg p-5" style={{ animationDelay: '240ms' }}>
             <div className="font-grotesk font-bold text-2xl tracking-[-0.02em] text-white leading-tight">Trusted</div>
             <div className="text-[13px] text-navy-100 mt-1">by doctors across India</div>
           </div>
@@ -263,7 +266,7 @@ const Home = () => {
 
       {/* CTA BAND */}
       <section className="max-w-7xl mx-auto px-6 md:px-7 mb-16">
-        <div className="bg-navy rounded-2xl p-8 md:p-12 flex justify-between items-center gap-8 flex-wrap relative overflow-hidden">
+        <div className="reveal reveal-scale bg-navy rounded-2xl p-8 md:p-12 flex justify-between items-center gap-8 flex-wrap relative overflow-hidden">
           <div className="absolute inset-0 grid-texture-dark pointer-events-none"></div>
           <div className="relative max-w-[46ch]">
             <h2 className="font-semibold text-[28px] tracking-[-0.02em] text-white mb-2">Ready to partner with a trusted healthcare leader?</h2>

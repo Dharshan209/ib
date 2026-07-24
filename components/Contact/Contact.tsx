@@ -18,15 +18,15 @@ const Contact = () => {
           <span className="text-ink-3">/</span>
           <span className="text-ink">Contact</span>
         </div>
-        <div className="font-mono text-xs tracking-[.14em] text-green-ink uppercase mb-3">Get in touch</div>
-        <h1 className="font-semibold text-4xl md:text-[42px] tracking-[-0.03em] text-navy mb-3">Contact Indian Biologicals</h1>
-        <p className="text-[17px] text-ink-2 max-w-[56ch] mb-9">
+        <div className="font-mono text-xs tracking-[.14em] text-green-ink uppercase mb-3 reveal">Get in touch</div>
+        <h1 className="font-semibold text-4xl md:text-[42px] tracking-[-0.03em] text-navy mb-3 reveal" style={{ animationDelay: '60ms' }}>Contact Indian Biologicals</h1>
+        <p className="text-[17px] text-ink-2 max-w-[56ch] mb-9 reveal" style={{ animationDelay: '120ms' }}>
           For product information, prescriber support or distribution enquiries. Our medical affairs team responds within two business days.
         </p>
 
         <div className="grid lg:grid-cols-[1.25fr_.75fr] gap-9 items-start">
           {/* form */}
-          <div className="bg-surface border border-line rounded-lg shadow-[var(--e-2)] p-7">
+          <div className="reveal reveal-left bg-surface border border-line rounded-lg shadow-[var(--e-2)] p-7">
             {!sent ? (
               <form onSubmit={handleSubmit}>
                 <div className="grid sm:grid-cols-2 gap-[18px]">
@@ -110,7 +110,7 @@ const Contact = () => {
 
           {/* details */}
           <div className="flex flex-col gap-4">
-            <div className="bg-surface border border-line rounded-lg p-[22px]">
+            <div className="reveal reveal-right bg-surface border border-line rounded-lg p-[22px]" style={{ animationDelay: '80ms' }}>
               <div className="font-mono text-[11px] tracking-[.1em] uppercase text-green-ink mb-3">Our office</div>
               <div className="text-[14.5px] leading-relaxed text-ink-2">
                 Indian Biologicals<br />
@@ -120,7 +120,7 @@ const Contact = () => {
                 Tamil Nadu, India
               </div>
             </div>
-            <div className="bg-surface border border-line rounded-lg p-[22px]">
+            <div className="reveal reveal-right bg-surface border border-line rounded-lg p-[22px]" style={{ animationDelay: '160ms' }}>
               <div className="font-mono text-[11px] tracking-[.1em] uppercase text-green-ink mb-3">Reach us</div>
               <div className="flex flex-col gap-2 text-[14.5px] text-ink-2">
                 <span><span className="text-ink-3">Email · </span><a href="mailto:admin@indianbiologicals.com" className="text-green-ink hover:text-green-700">admin@indianbiologicals.com</a></span>
@@ -128,7 +128,7 @@ const Contact = () => {
                 <span><span className="text-ink-3">Landline · </span><a href="tel:04435949528" className="text-green-ink hover:text-green-700">044-3594 9528</a></span>
               </div>
             </div>
-            <div className="aspect-[4/3] border border-line rounded-lg overflow-hidden shadow-sm">
+            <div className="reveal reveal-right aspect-[4/3] border border-line rounded-lg overflow-hidden shadow-sm" style={{ animationDelay: '240ms' }}>
               <iframe
                 title="Indian Biologicals — West Mambalam, Chennai"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31103.658353016267!2d80.2105136!3d13.0412781!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5266f751928135%3A0x9d47028931eb7a89!2sWest%20Mambalam%2C%20Chennai%2C%20Tamil%20Nadu%20600033!5e0!3m2!1sen!2sin!4v1713358906810!5m2!1sen!2sin"

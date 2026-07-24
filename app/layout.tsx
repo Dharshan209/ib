@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { IBM_Plex_Sans, IBM_Plex_Mono, Space_Grotesk } from 'next/font/google';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
+import ScrollReveal from '../components/ScrollReveal';
 import './globals.css';
 
 const plexSans = IBM_Plex_Sans({
@@ -41,6 +42,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${plexSans.variable} ${plexMono.variable} ${grotesk.variable}`}>
       <body>
+        <ScrollReveal />
         <Header />
         <main>{children}</main>
         <Footer />

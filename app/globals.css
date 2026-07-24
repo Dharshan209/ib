@@ -47,6 +47,41 @@
   .eyebrow {
     @apply inline-flex items-center gap-2 font-mono text-[11px] tracking-[.12em] uppercase text-green-ink bg-green-50 border border-green-100 rounded-full px-3 py-1.5;
   }
+
+  /* Scroll-reveal: hidden until observed, then animates in.
+     Uses `animation` (not transition) so it never conflicts with hover
+     transitions on the same element; `backwards` fill hides staggered
+     items during their delay, and no forwards fill keeps transform free
+     for hover afterwards. Stagger via inline `animationDelay`. */
+  .reveal {
+    opacity: 0;
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    animation: revealUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  }
+
+  .reveal-left.is-visible {
+    animation-name: revealLeft;
+  }
+
+  .reveal-right.is-visible {
+    animation-name: revealRight;
+  }
+
+  .reveal-scale.is-visible {
+    animation-name: revealScale;
+  }
+
+  /* Consistent, animated hover elevation */
+  .hover-lift {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .hover-lift:hover {
+    @apply -translate-y-1.5 shadow-[var(--e-3)];
+  }
 }
 
 @keyframes fadeIn {
@@ -98,6 +133,26 @@
 @keyframes fillBar {
   from { width: 0%; }
   to { width: 100%; }
+}
+
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes revealLeft {
+  from { opacity: 0; transform: translateX(-34px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes revealRight {
+  from { opacity: 0; transform: translateX(34px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes revealScale {
+  from { opacity: 0; transform: scale(0.94); }
+  to { opacity: 1; transform: none; }
 }
 
 @keyframes ibGlow {
@@ -161,5 +216,11 @@
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }

@@ -10,7 +10,7 @@ const Footer = () => {
     <footer className="bg-navy text-navy-100">
       <div className="max-w-7xl mx-auto px-6 md:px-7 py-12">
         <div className="grid md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr] gap-7">
-          <div>
+          <div className="reveal">
             <div className="flex items-center gap-2.5 mb-3.5">
               <Image
                 src="/IB-logo.svg"
@@ -26,7 +26,7 @@ const Footer = () => {
             </p>
           </div>
 
-          <div>
+          <div className="reveal" style={{ animationDelay: '80ms' }}>
             <div className="font-mono text-[11px] tracking-[.1em] uppercase text-green-300 mb-3">Explore</div>
             <div className="flex flex-col gap-2 text-[13.5px]">
               <Link href="/products" className="text-white hover:text-green-300 transition-colors w-fit">Products</Link>
@@ -37,7 +37,7 @@ const Footer = () => {
             </div>
           </div>
 
-          <div>
+          <div className="reveal" style={{ animationDelay: '160ms' }}>
             <div className="font-mono text-[11px] tracking-[.1em] uppercase text-green-300 mb-3">Areas</div>
             <div className="flex flex-col gap-2 text-[13.5px] text-navy-100">
               <span>Fertility</span>
@@ -47,7 +47,7 @@ const Footer = () => {
             </div>
           </div>
 
-          <div>
+          <div className="reveal" style={{ animationDelay: '240ms' }}>
             <div className="font-mono text-[11px] tracking-[.1em] uppercase text-green-300 mb-3">Contact</div>
             <div className="flex flex-col gap-2 text-[13.5px] text-navy-100">
               <span>West Mambalam, Chennai — 600033</span>

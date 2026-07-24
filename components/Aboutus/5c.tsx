@@ -39,15 +39,15 @@ const coreValues = [
 const FiveC = () => {
   return (
     <div>
-      <div className="font-mono text-xs tracking-[.14em] text-green-ink uppercase mb-3">What guides us</div>
-      <h2 className="font-semibold text-[30px] tracking-[-0.02em] text-ink mb-2">Our core values — the 5Cs</h2>
-      <p className="text-base text-ink-2 max-w-[60ch] mb-7">
+      <div className="font-mono text-xs tracking-[.14em] text-green-ink uppercase mb-3 reveal">What guides us</div>
+      <h2 className="font-semibold text-[30px] tracking-[-0.02em] text-ink mb-2 reveal" style={{ animationDelay: '60ms' }}>Our core values — the 5Cs</h2>
+      <p className="text-base text-ink-2 max-w-[60ch] mb-7 reveal" style={{ animationDelay: '120ms' }}>
         Five principles that guide our daily operations and long-term vision, ensuring we deliver exceptional healthcare with integrity and purpose.
       </p>
       <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {coreValues.map((value, index) => (
-          <div key={index} className="bg-surface border border-line rounded-lg p-[22px]">
-            <div className="w-11 h-11 bg-green-50 rounded-lg flex items-center justify-center mb-4 text-green-ink">
+          <div key={index} className="group reveal bg-surface border border-line rounded-lg p-[22px] hover:-translate-y-1 hover:shadow-lg transition-all duration-300" style={{ animationDelay: `${index * 70}ms` }}>
+            <div className="w-11 h-11 bg-green-50 rounded-lg flex items-center justify-center mb-4 text-green-ink transition-transform duration-300 group-hover:scale-110 group-hover:bg-green-100">
               <value.icon className="w-5 h-5" />
             </div>
             <div className="font-mono text-[11px] text-ink-3 mb-2">{`0${index + 1}`}</div>

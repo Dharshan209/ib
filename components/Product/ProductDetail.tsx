@@ -21,7 +21,7 @@ const ProductDetail = ({ product }: { product: Product }) => {
 
         <div className="grid md:grid-cols-[0.9fr_1.1fr] gap-11 items-start">
           {/* pack */}
-          <div className="relative aspect-square bg-gradient-to-br from-white to-green-50 border border-line rounded-xl shadow-[var(--e-2)] flex items-center justify-center p-10">
+          <div className="reveal reveal-left relative aspect-square bg-gradient-to-br from-white to-green-50 border border-line rounded-xl shadow-[var(--e-2)] flex items-center justify-center p-10">
             <span className="absolute z-10 top-4 left-4 text-[11px] font-semibold text-green-ink bg-green-50 border border-green-100 rounded-full px-2.5 py-1">{product.tag}</span>
             <Image
               src={product.image}
@@ -34,7 +34,7 @@ const ProductDetail = ({ product }: { product: Product }) => {
           </div>
 
           {/* info */}
-          <div>
+          <div className="reveal reveal-right" style={{ animationDelay: '120ms' }}>
             <div className="font-mono text-[11px] tracking-[.12em] text-ink-3 uppercase mb-2">{product.use}</div>
             <h1 className="font-semibold text-[38px] tracking-[-0.025em] text-navy mb-3.5">{product.name}</h1>
             <div className="flex gap-2 flex-wrap mb-5">
@@ -99,7 +99,7 @@ const ProductDetail = ({ product }: { product: Product }) => {
         </div>
 
         {/* safety callout */}
-        <div className="flex gap-3 bg-warning-bg border border-[#F0DBB0] border-l-4 border-l-warning rounded-md px-4 py-3.5 my-8">
+        <div className="reveal flex gap-3 bg-warning-bg border border-[#F0DBB0] border-l-4 border-l-warning rounded-md px-4 py-3.5 my-8">
           <span className="text-warning font-bold">⚠</span>
           <div className="text-[13.5px] text-ink-2">
             For use only on the advice of a registered medical practitioner. Full prescribing information, contraindications and adverse-event reporting details accompany the product pack.
@@ -109,13 +109,14 @@ const ProductDetail = ({ product }: { product: Product }) => {
         {/* related */}
         {related.length > 0 && (
           <>
-            <h3 className="font-semibold text-xl tracking-[-0.01em] text-ink mb-[18px]">Related in {product.area}</h3>
+            <h3 className="font-semibold text-xl tracking-[-0.01em] text-ink mb-[18px] reveal">Related in {product.area}</h3>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-[18px]">
-              {related.map((p) => (
+              {related.map((p, i) => (
                 <Link
                   key={p.slug}
                   href={`/products/${p.slug}`}
-                  className="text-left bg-surface border border-line rounded-lg overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col"
+                  className="reveal reveal-scale text-left bg-surface border border-line rounded-lg overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col"
+                  style={{ animationDelay: `${(i % 3) * 80}ms` }}
                 >
                   <div className="relative aspect-[16/10] bg-gradient-to-br from-white to-green-50 flex items-center justify-center border-b border-line p-4">
                     <Image

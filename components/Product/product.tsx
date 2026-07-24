@@ -39,14 +39,14 @@ const Products = () => {
           <span className="text-ink-3">/</span>
           <span className="text-ink">Products</span>
         </div>
-        <div className="font-mono text-xs tracking-[.14em] text-green-ink uppercase mb-3">Catalog</div>
-        <h1 className="font-semibold text-4xl tracking-[-0.025em] text-navy mb-3">Product portfolio</h1>
-        <p className="text-[17px] text-ink-2 max-w-[60ch] mb-7">
+        <div className="font-mono text-xs tracking-[.14em] text-green-ink uppercase mb-3 reveal">Catalog</div>
+        <h1 className="font-semibold text-4xl tracking-[-0.025em] text-navy mb-3 reveal" style={{ animationDelay: '60ms' }}>Product portfolio</h1>
+        <p className="text-[17px] text-ink-2 max-w-[60ch] mb-7 reveal" style={{ animationDelay: '120ms' }}>
           Sixteen curated formulations across six therapeutic areas in women&apos;s health. Filter by area or dosage form, or search by name.
         </p>
 
         {/* filter bar */}
-        <div className="flex flex-col gap-4 bg-surface border border-line rounded-lg p-5 shadow-sm mb-6">
+        <div className="reveal flex flex-col gap-4 bg-surface border border-line rounded-lg p-5 shadow-sm mb-6" style={{ animationDelay: '180ms' }}>
           <div className="flex gap-3 flex-wrap items-center">
             <div className="relative flex-1 min-w-[240px]">
               <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-3 font-mono pointer-events-none">⌕</span>
@@ -102,11 +102,12 @@ const Products = () => {
 
         {filtered.length > 0 ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-[18px]">
-            {filtered.map((p) => (
+            {filtered.map((p, i) => (
               <Link
                 key={p.slug}
                 href={`/products/${p.slug}`}
-                className="text-left bg-surface border border-line rounded-lg overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col"
+                className="reveal reveal-scale text-left bg-surface border border-line rounded-lg overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col"
+                style={{ animationDelay: `${(i % 8) * 55}ms` }}
               >
                 <div className="relative aspect-square bg-gradient-to-br from-white to-green-50 flex items-center justify-center border-b border-line p-4">
                   <span className="absolute z-10 top-3 left-3 text-[10px] font-semibold text-green-ink bg-green-50 border border-green-100 rounded-full px-2.5 py-1">{p.tag}</span>
@@ -116,7 +117,7 @@ const Products = () => {
                     width={220}
                     height={220}
                     className="object-contain w-full h-full"
-                    loading="lazy"
+                    loading={i < 4 ? 'eager' : 'lazy'}
                   />
                 </div>
                 <div className="p-4">
